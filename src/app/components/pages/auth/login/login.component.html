@@ -1,14 +1,23 @@
-<p>
-  login works!
-</p>
-<form [formGroup]="profileForm">
-  <label>
-    Name:
-    <input type="text" [formControlName]="name">
-  </label>
-  <br />
-  <label>
-    Email:
-    <input type="email" [formControlEmail]="email">
-  </label>
+<p>login works!</p>
+
+<form appAuthFormDisplay [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+  <div appFormItem class='form-item'>
+    <label for="name">
+      Name:
+    </label>
+    <input id="password" type="text" formControlName="name">
+  </div>
+
+  <div appFormItem class='form-item'>
+    <label for="password">
+      Password:
+    </label>
+    <input id="password" type="text" formControlName="password">
+  </div>
+
+  <div class='auth-action-btn-wrapper'>
+    <button class="auth-action-btn" type="submit" [disabled]="!profileForm.valid">Login</button>
+  </div>
+
 </form>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,15 +7,23 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  constructor() { }
-
-  profileForm = new FormGroup({
-    name: new FormControl(''),
-    email: new FormControl('')
-  })
+  constructor(private fb: FormBuilder) { }
+  profileForm = this.fb.group({
+    name: ['', Validators.compose([
+      Validators.required,
+      Validators.minLength(6)
+    ])],
+    password: ['', [
+      Validators.required
+    ]],
+  });
 
   ngOnInit() {
   }
 
+
+  onSubmit() {
+    // TODO: Use EventEmitter with form value
+    console.log(this.profileForm.value);
+  }
 }

@@ -1,14 +1,15 @@
 <div class='auth-wrapper' (click)=[onCloseModal($event)]>
 
   <div class="auth-component">
-    <p>
-      auth works!
-    </p>
+
     <router-outlet></router-outlet>
+
     <nav class='auth-nav'>
-      <a [routerLink]="['login']">login </a>
-      <a [routerLink]="['register']">register </a>
+      <a class='auth-nav-link' appBtnColor [routerLink]="['login']">login </a>
+      <a class='auth-nav-link' appBtnColor [routerLink]="['register']">register </a>
+      <a class='auth-nav-link' appBtnColor [routerLink]="['forgot-password']">Forgot password? </a>
     </nav>
+    
   </div>
 
 </div>

@@ -1,3 +1,64 @@
 <p>
   register works!
 </p>
+
+<form appAuthFormDisplay [formGroup]="profileForm" (ngSubmit)="profileForm.valid && onSubmit()">
+
+  <div appFormItem class='form-item'>
+    <label for="firstName">
+      First name:
+    </label>
+    <input id="firstName" type="text" formControlName="firstName" />
+  </div>
+
+  <div appFormItem *ngIf="submitClicked">
+    <div></div>
+    <div *ngIf="f.firstName.errors && f.firstName.errors.required">
+      first name is required
+    </div>
+    <div *ngIf="f.firstName.errors && f.firstName.errors.minlength">
+      name must contain min 6 characters
+    </div>
+  </div>
+
+  <div appFormItem class='form-item'>
+    <label for="lastName">
+      Last name:
+    </label>
+    <input id="lastName" type="text" id="lastName" formControlName="lastName" />
+  </div>
+
+  <div appFormItem *ngIf="submitClicked">
+    <div></div>
+    <div *ngIf="f.lastName.errors && f.lastName.errors.required">
+      last name is required
+    </div>
+    <div *ngIf="f.lastName.errors && f.lastName.errors.minlength">
+      name must contain min 6 characters
+    </div>
+  </div>
+
+  <div appFormItem class='form-item'>
+    <label for="email">
+      Email:
+    </label>
+    <input id="email" type="email" formControlName="email" />
+  </div>
+
+  <div appFormItem *ngIf="submitClicked">
+    <div></div>
+    <div *ngIf="f.email.errors && f.email.errors.required">
+      email is required
+    </div>
+    <div *ngIf="f.email.errors && f.email.errors.pattern">
+      not valid email
+    </div>
+  </div>
+
+  <div class='auth-action-btn-wrapper'>
+    <button (click)='ngOnInit()'>reset</button>
+    <button class="auth-action-btn" type="submit" (click)='onClickSubmitBtn()'>Submit</button>
+  </div>
+
+</form>
+  

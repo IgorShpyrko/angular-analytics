@@ -14,11 +14,9 @@ export class AuthComponent implements OnInit {
   }
 
   onCloseModal(e) {
-    e.preventDefault()
-    e.stopPropagation();
-    
     if (e.target.className === 'auth-wrapper') {
       this._router.navigate(['/'], {});
     }
   }
+
 }

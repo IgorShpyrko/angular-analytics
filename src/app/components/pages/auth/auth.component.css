@@ -11,6 +11,20 @@
   margin: auto;
   width: 400px;
   margin-top: 200px;
-  padding: 20px;
+  padding: 50px 40px;
   background-color: #fff;
+}
+
+.auth-component nav {
+  padding: 60px 0 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-nav-link {
+  text-decoration: none;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
