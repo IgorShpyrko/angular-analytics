@@ -1,3 +1,20 @@
 .auth-action-btn-wrapper {
   margin-top: 50px;
 }
+
+.form-item {
+  padding-bottom: 20px;
+}
+
+.form-error {
+  margin-top: -18px;
+  color: red
+}
+
+.form-error-placehlder {
+  color: #777;
+}
+
+.form-error-correct-placehlder {
+  color: green;
+}

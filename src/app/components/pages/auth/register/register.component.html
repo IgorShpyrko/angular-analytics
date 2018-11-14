@@ -2,7 +2,7 @@
   register works!
 </p>
 
-<form appAuthFormDisplay [formGroup]="profileForm" (ngSubmit)="profileForm.valid && onSubmit()">
+<form [formGroup]="profileForm" (ngSubmit)="profileForm.valid && onSubmit()">
 
   <div appFormItem class='form-item'>
     <label for="firstName">
@@ -11,14 +11,30 @@
     <input id="firstName" type="text" formControlName="firstName" />
   </div>
 
-  <div appFormItem *ngIf="submitClicked">
+  <div appFormItem class='form-error'>
     <div></div>
-    <div *ngIf="f.firstName.errors && f.firstName.errors.required">
-      first name is required
+    <div *ngIf="submitClicked; else firstNameTmpl">
+      <div *ngIf="f.firstName.errors; else firstNameCorrectTmpl">
+        <div *ngIf="f.firstName.errors.required">
+          first name is required
+        </div>
+        <div *ngIf="f.firstName.errors.minlength" >
+          name must contain min 6 characters
+        </div>
+      </div>
     </div>
-    <div *ngIf="f.firstName.errors && f.firstName.errors.minlength">
-      name must contain min 6 characters
-    </div>
+
+    <ng-template #firstNameTmpl>
+      <div class='form-error-placehlder'>
+        Enter first name here
+      </div>
+    </ng-template>
+
+    <ng-template #firstNameCorrectTmpl>
+      <div class='form-error-correct-placehlder'>
+        Correct first name
+      </div>
+    </ng-template>
   </div>
 
   <div appFormItem class='form-item'>
@@ -28,14 +44,30 @@
     <input id="lastName" type="text" id="lastName" formControlName="lastName" />
   </div>
 
-  <div appFormItem *ngIf="submitClicked">
+  <div appFormItem class='form-error'>
     <div></div>
-    <div *ngIf="f.lastName.errors && f.lastName.errors.required">
-      last name is required
+    <div *ngIf="submitClicked; else lastNameTmpl">
+      <div *ngIf="f.lastName.errors; else lastNameCorrectTmpl">
+        <div *ngIf="f.lastName.errors.required">
+          last name is required
+        </div>
+        <div *ngIf="f.lastName.errors.minlength" >
+          name must contain min 6 characters
+        </div>
+      </div>
     </div>
-    <div *ngIf="f.lastName.errors && f.lastName.errors.minlength">
-      name must contain min 6 characters
-    </div>
+
+    <ng-template #lastNameTmpl>
+      <div class='form-error-placehlder'>
+        Enter last name here
+      </div>
+    </ng-template>
+
+    <ng-template #lastNameCorrectTmpl>
+      <div class='form-error-correct-placehlder'>
+        Correct last name
+      </div>
+    </ng-template>
   </div>
 
   <div appFormItem class='form-item'>
@@ -45,15 +77,31 @@
     <input id="email" type="email" formControlName="email" />
   </div>
 
-  <div appFormItem *ngIf="submitClicked">
-    <div></div>
-    <div *ngIf="f.email.errors && f.email.errors.required">
-      email is required
+  <div appFormItem class='form-error'>
+      <div></div>
+      <div *ngIf="submitClicked; else emailTmpl">
+        <div *ngIf="f.email.errors; else emailCorrectTmpl">
+          <div *ngIf="f.email.errors.required">
+            email is required
+          </div>
+          <div *ngIf="f.email.errors.pattern" >
+            not valid emails
+          </div>
+        </div>
+      </div>
+  
+      <ng-template #emailTmpl>
+        <div class='form-error-placehlder'>
+          Enter email here
+        </div>
+      </ng-template>
+  
+      <ng-template #emailCorrectTmpl>
+        <div class='form-error-correct-placehlder'>
+          Correct email
+        </div>
+      </ng-template>
     </div>
-    <div *ngIf="f.email.errors && f.email.errors.pattern">
-      not valid email
-    </div>
-  </div>
 
   <div class='auth-action-btn-wrapper'>
     <button (click)='ngOnInit()'>reset</button>
