@@ -4,13 +4,13 @@
 
 <form [formGroup]="profileForm" (ngSubmit)="profileForm.valid && onSubmit()">
 
+  <!-- First Name Input -->
   <div appFormItem class='form-item'>
-    <label for="firstName">
-      First name:
-    </label>
+    <label for="firstName">First name:</label>
     <input id="firstName" type="text" formControlName="firstName" />
   </div>
 
+  <!-- First Name errors -->
   <div appFormItem class='form-error'>
     <div></div>
     <div *ngIf="submitClicked; else firstNameTmpl">
@@ -24,6 +24,7 @@
       </div>
     </div>
 
+<!-- First Name templates -->
     <ng-template #firstNameTmpl>
       <div class='form-error-placehlder'>
         Enter first name here
@@ -37,13 +38,13 @@
     </ng-template>
   </div>
 
+<!-- Last Name Input -->
   <div appFormItem class='form-item'>
-    <label for="lastName">
-      Last name:
-    </label>
+    <label for="lastName">Last name:</label>
     <input id="lastName" type="text" id="lastName" formControlName="lastName" />
   </div>
 
+<!-- Last Name errors -->
   <div appFormItem class='form-error'>
     <div></div>
     <div *ngIf="submitClicked; else lastNameTmpl">
@@ -57,6 +58,7 @@
       </div>
     </div>
 
+<!-- Last Name templates -->
     <ng-template #lastNameTmpl>
       <div class='form-error-placehlder'>
         Enter last name here
@@ -70,43 +72,108 @@
     </ng-template>
   </div>
 
+<!-- Email Input -->
   <div appFormItem class='form-item'>
-    <label for="email">
-      Email:
-    </label>
+    <label for="email">Email:</label>
     <input id="email" type="email" formControlName="email" />
   </div>
 
+<!-- Email errors -->
   <div appFormItem class='form-error'>
+    <div></div>
+    <div *ngIf="submitClicked; else emailTmpl">
+      <div *ngIf="f.email.errors; else emailCorrectTmpl">
+        <div *ngIf="f.email.errors.required">
+          email is required
+        </div>
+        <div *ngIf="f.email.errors.pattern" >
+          not valid emails
+        </div>
+      </div>
+    </div>
+
+<!-- Email templates -->
+    <ng-template #emailTmpl>
+      <div class='form-error-placehlder'>
+        Enter email here
+      </div>
+    </ng-template>
+
+    <ng-template #emailCorrectTmpl>
+      <div class='form-error-correct-placehlder'>
+        Correct email
+      </div>
+    </ng-template>
+  </div>
+
+<!-- Password group -->
+  <div [formGroup]="passwordFormGroup">
+
+<!-- Password Input -->
+    <div appFormItem class="form-item">
+      <label for="password">Password</label>
+      <input class="form-control" type="password" name="password" formControlName="password">
+    </div>
+
+<!-- Password errors -->
+    <div appFormItem class='form-error'>
       <div></div>
-      <div *ngIf="submitClicked; else emailTmpl">
-        <div *ngIf="f.email.errors; else emailCorrectTmpl">
-          <div *ngIf="f.email.errors.required">
-            email is required
-          </div>
-          <div *ngIf="f.email.errors.pattern" >
-            not valid emails
+
+      <div *ngIf="!submitClicked" class='form-error-placehlder'>
+        Enter password here
+      </div>
+
+      <div *ngIf="submitClicked">
+        <div class='form-error-correct-placehlder' *ngIf="!passwordFormGroup.controls.password.errors">
+          Password conditions are fulfilled
+        </div>
+        <div *ngIf="passwordFormGroup.controls.password.errors?.required">
+          Password is required
+        </div>
+
+        <div class='invalid-password-error' appPassHelp *ngIf="passwordFormGroup.controls.password.errors?.pattern">
+          not valid password
+          <div class='password-hint' >
+            Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
           </div>
         </div>
       </div>
-  
-      <ng-template #emailTmpl>
-        <div class='form-error-placehlder'>
-          Enter email here
-        </div>
-      </ng-template>
-  
-      <ng-template #emailCorrectTmpl>
-        <div class='form-error-correct-placehlder'>
-          Correct email
-        </div>
-      </ng-template>
+
     </div>
 
+<!-- Password confirm input -->
+    <div appFormItem class="form-item">
+      <label for="repeatPassword">Repeat Password</label>
+      <input class="form-control" type="password" name="repeatPassword" formControlName="repeatPassword">
+    </div>
+    
+<!-- Password confirm errors -->
+    <div appFormItem class='form-error'>
+      <div></div>
+
+      <div *ngIf="!submitClicked" class='form-error-placehlder'>
+        Enter confirm password here
+      </div>
+
+      <div *ngIf="submitClicked">
+        <div class='form-error-correct-placehlder' *ngIf="!passwordFormGroup.controls.repeatPassword.errors && !passwordFormGroup.errors?.doesMatchPassword">
+          Passwords match
+        </div>
+        <div class="bg-danger" *ngIf="passwordFormGroup.controls.repeatPassword.errors?.required">
+          Repeat password is required
+        </div>
+        <div class="bg-danger" *ngIf="passwordFormGroup.errors?.doesMatchPassword">
+          Password does not match
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- Register form controls -->
   <div class='auth-action-btn-wrapper'>
     <button (click)='ngOnInit()'>reset</button>
     <button class="auth-action-btn" type="submit" (click)='onClickSubmitBtn()'>Submit</button>
   </div>
-
 </form>
   

@@ -18,3 +18,19 @@
 .form-error-correct-placehlder {
   color: green;
 }
+
+.invalid-password-error {
+  position: relative;
+}
+
+.password-hint {
+  visibility: hidden;
+  z-index: 99999;
+  background-color: rgba(50, 50, 50, 1);
+  color: #FFF;
+  padding: 5px;
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: -220px;
+}

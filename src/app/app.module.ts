@@ -16,6 +16,8 @@ import { RegisterComponent } from './components/pages/auth/register/register.com
 import { ForgotPasswordComponent } from './components/pages/auth/forgot-password/forgot-password.component';
 import { AuthFormDisplayDirective } from './directives/authFormDisplay/auth-form-display.directive';
 import { FormItemDirective } from './directives/formItem/form-item.directive';
+import { HttpClientModule } from '@angular/common/http';
+import { PassHelpDirective } from './directives/pass-help/pass-help.directive';
 
 @NgModule({
   declarations: [
@@ -31,10 +33,12 @@ import { FormItemDirective } from './directives/formItem/form-item.directive';
     RegisterComponent,
     ForgotPasswordComponent,
     AuthFormDisplayDirective,
-    FormItemDirective
+    FormItemDirective,
+    PassHelpDirective
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule
   ],
