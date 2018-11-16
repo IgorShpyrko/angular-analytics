@@ -9,23 +9,23 @@ const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{
 // At least one digit, (?=.*?[0-9])
 // At least one special character, (?=.*?[#?!@$%^&*-])
 // Minimum eight in length .{8,} (with the anchors)
-const passRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+const passRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _registerService: RegisterService) { }
-
-  profileForm: FormGroup;
-  submitClicked:boolean = false;
-  submitted:boolean = false;
-  response;
+    
+    profileForm: FormGroup;
+    submitClicked:boolean = false;
+    submitted:boolean = false;
+    response;
+    passwordFormGroup: FormGroup;
   
   ngOnInit() {
     this.submitClicked = false;
@@ -50,9 +50,9 @@ export class RegisterComponent implements OnInit {
         repeatPassword: ['', Validators.required]
       },
       {
-        validator:  (registrationFormGroup: FormGroup) => {
-          let password = registrationFormGroup.controls.password.value;
-          let repeatPassword = registrationFormGroup.controls.repeatPassword.value;
+        validator:  (profileForm: FormGroup) => {
+          let password = profileForm.controls.password.value;
+          let repeatPassword = profileForm.controls.repeatPassword.value;
   
           if (repeatPassword.length <= 0) {
             return null;
@@ -67,34 +67,31 @@ export class RegisterComponent implements OnInit {
         }
       }
     );
-    this.registrationFormGroup = this.fb.group({
-      username: ['', Validators.required],
-      passwordFormGroup: this.passwordFormGroup
-    });
   }
-
-  registrationFormGroup: FormGroup;
-  passwordFormGroup: FormGroup;
 
   onClickSubmitBtn() {
     this.submitClicked = true
   }
 
   get f() {
-    // console.log(this.profileForm.controls)
     return this.profileForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
     // TODO: Use EventEmitter with form value
-    console.log(this.profileForm.value);
-    console.log(this.passwordFormGroup.value)
-    // this._registerService.register(this.profileForm.value)
-    //   .subscribe(response => {
-    //     console.log(response)
-    //     this.response = response
-    //   })
+
+    let newUser = Object.assign(
+      {},
+      this.profileForm.value,
+      {password: this.passwordFormGroup.value.password}
+    )
+
+    this._registerService.register(newUser)
+      .subscribe(response => {
+        console.log(response)
+        this.response = response
+      })
   }
 
 }

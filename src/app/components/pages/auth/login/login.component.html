@@ -3,21 +3,32 @@
 <form appAuthFormDisplay [formGroup]="profileForm" (ngSubmit)="onLogin()">
 
   <div appFormItem class='form-item'>
-    <label for="name">
-      Name:
-    </label>
-    <input id="password" type="text" formControlName="name">
+    <label for="name">Name:</label>
+    <input id="name" type="text" formControlName="name">
+  </div>
+  
+  <div appFormItem class='form-error'>
+    <div></div>
+    <div class='form-error-correct-placeholder' *ngIf='!f.name.errors || !f.name.touched'>
+      Login conditions are fulfilled
+    </div>
+    <div *ngIf='f.name.errors && f.name.touched'>
+      <div *ngIf='f.name.errors?.required'>
+        login is required
+      </div>
+      <div *ngIf='f.name.errors?.minlength'>
+        login must contain at least 6 characters
+      </div>
+    </div>
   </div>
 
   <div appFormItem class='form-item'>
-    <label for="password">
-      Password:
-    </label>
-    <input id="password" type="text" formControlName="password">
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password">
   </div>
 
   <div class='auth-action-btn-wrapper'>
-    <button class="auth-action-btn" type="submit">Login</button>
+    <button appBtnDirective type="submit" [disabled]="!profileForm.valid">Login</button>
     <!-- TODO: replace btn with commented  -->
     <!-- <button class="auth-action-btn" type="submit" [disabled]="!profileForm.valid">Login</button> -->
   </div>

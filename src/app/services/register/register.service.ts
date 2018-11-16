@@ -17,6 +17,10 @@ export class RegisterService {
 
   register(newUser) {
     console.log(newUser)
-    return this._http.put(`${API.serverUrl}`, JSON.stringify(newUser), httpOptions)
+    console.log(JSON.stringify(newUser))
+    if (!newUser) {
+      return
+    }
+    return this._http.put(`${API.serverUrl}${API.registerUrl}`, JSON.stringify(newUser), httpOptions)
   }
 }

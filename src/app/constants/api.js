@@ -1,3 +1,8 @@
 export const API = {
-  serverUrl: 'https://jsonplaceholder.typicode.com/users'
+  serverUrl: 'http://localhost:8000',
+  allUserEventsUrl: '/api/action/get',
+  addEventUrl: '/api/action/add',
+  registerUrl: '/api/user/register',
+  loginUrl: '/api/user/login',
+  postUrl: '/api/posts/post/' // + postId
 }

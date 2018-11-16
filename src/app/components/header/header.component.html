@@ -2,17 +2,23 @@
   <div class='main-menu'>
     <div class='main-menu-nav'>
       <div class='main-logo'>
-        <a class='nav-logo' href='/'>
+        <a class='nav-logo' [routerLink]="['/']">
           <span>Logo</span>
         </a>
       </div>
       <nav>
-        <a class ='nav-button' href="/new">Add new site for analize</a>
-        <a class ='nav-button' href="/analize">Check statistic</a>
+        <a class ='nav-button' [routerLink]="['/new']">
+          <span>Add new site for analize</span>
+        </a>
+        <a class ='nav-button' [routerLink]="['/analize']">
+          <span>Check statistic</span>
+        </a>
       </nav>
     </div>
     <div>
-      <a class ='nav-button' href="/auth">Log in</a>
+      <a class ='nav-button' [routerLink]="['/auth']">
+        <span>Log in</span>
+      </a>
     </div>
   </div>
 </div>

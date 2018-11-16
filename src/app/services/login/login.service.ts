@@ -8,7 +8,11 @@ import { API } from '../../constants/api';
 export class LoginService {
   constructor(private _http: HttpClient) { }
 
-  login(userId) {
-    return this._http.get(`${API.serverUrl}/${userId || ''}`)
+  login(user) {
+    if (!user) {
+      return
+    }
+    console.log(user)
+    return this._http.get(`${API.serverUrl}/${API.loginUrl}`)
   }
 }

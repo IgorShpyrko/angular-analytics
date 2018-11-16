@@ -18,6 +18,7 @@ import { AuthFormDisplayDirective } from './directives/authFormDisplay/auth-form
 import { FormItemDirective } from './directives/formItem/form-item.directive';
 import { HttpClientModule } from '@angular/common/http';
 import { PassHelpDirective } from './directives/pass-help/pass-help.directive';
+import { BtnDirectiveDirective } from './directives/btn-directive/btn-directive.directive';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PassHelpDirective } from './directives/pass-help/pass-help.directive';
     ForgotPasswordComponent,
     AuthFormDisplayDirective,
     FormItemDirective,
-    PassHelpDirective
+    PassHelpDirective,
+    BtnDirectiveDirective
   ],
   imports: [
     BrowserModule,

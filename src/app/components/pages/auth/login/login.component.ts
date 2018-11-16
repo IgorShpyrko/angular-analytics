@@ -27,15 +27,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  get f() {
+    return this.profileForm.controls;
+  }
 
   onLogin() {
     // TODO: Use EventEmitter with form value
     console.log(this.profileForm.value);
     this._loginService.login(this.profileForm.value.name)
       .subscribe(user => {
-        console.log(user)
         this.user = user
-        window.localStorage.setItem('token', user['phone'])
+        window.localStorage.setItem('token', user['token'])
       })
   }
 }
