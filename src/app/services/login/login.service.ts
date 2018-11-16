@@ -12,7 +12,20 @@ export class LoginService {
     if (!user) {
       return
     }
+
+    let bodyParams = {
+      user: {
+        email: user.name,
+        password: user.password
+      }
+    }
+    console.log(bodyParams)
+
+    // "user": {
+    //   "email" : "valik5@gmail.com",
+    //   "password": "valik571696"	
+    // }
     console.log(user)
-    return this._http.get(`${API.serverUrl}/${API.loginUrl}`)
+    return this._http.post(`${API.serverUrl}${API.loginUrl}`, bodyParams)
   }
 }

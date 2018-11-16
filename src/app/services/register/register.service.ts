@@ -21,6 +21,13 @@ export class RegisterService {
     if (!newUser) {
       return
     }
-    return this._http.put(`${API.serverUrl}${API.registerUrl}`, JSON.stringify(newUser), httpOptions)
+
+    const bodyParams = {
+      user: {
+        email: newUser.email,
+        password: newUser.password
+      }
+    }
+    return this._http.post(`${API.serverUrl}${API.registerUrl}`, bodyParams, httpOptions)
   }
 }

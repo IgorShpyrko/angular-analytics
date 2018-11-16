@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     // TODO: Use EventEmitter with form value
     console.log(this.profileForm.value);
-    this._loginService.login(this.profileForm.value.name)
+    this._loginService.login(this.profileForm.value)
       .subscribe(user => {
         this.user = user
         window.localStorage.setItem('token', user['token'])
