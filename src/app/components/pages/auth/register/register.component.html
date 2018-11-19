@@ -13,7 +13,10 @@
   <!-- First Name errors -->
   <div appFormItem class='form-error'>
     <div></div>
-    <div *ngIf="submitClicked; else firstNameTmpl">
+    <div class='form-error-placeholder' *ngIf="!f.firstName.touched">
+        Enter first name here
+    </div>
+    <div *ngIf="f.firstName.touched">
       <div *ngIf="f.firstName.errors; else firstNameCorrectTmpl">
         <div *ngIf="f.firstName.errors.required">
           first name is required
@@ -25,11 +28,6 @@
     </div>
 
 <!-- First Name templates -->
-    <ng-template #firstNameTmpl>
-      <div class='form-error-placeholder'>
-        Enter first name here
-      </div>
-    </ng-template>
 
     <ng-template #firstNameCorrectTmpl>
       <div class='form-error-correct-placeholder'>

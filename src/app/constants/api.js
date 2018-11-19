@@ -4,5 +4,6 @@ export const API = {
   addEventUrl: '/api/action/add',
   registerUrl: '/api/user/register',
   loginUrl: '/api/user/login',
-  postUrl: '/api/posts/post/' // + postId
+  postUrl: '/api/posts/post/', // + postId
+  getAllSites: '/api/sites/' // mock for now (doesn`t exist)
 }

@@ -1,0 +1,25 @@
+.add-site {
+  position: relative;
+}
+
+.add-new-site-wrapper {
+  width: 400px;
+  margin: auto;
+}
+
+.form-item {
+  padding-bottom: 20px;
+}
+
+.form-error {
+  margin-top: -18px;
+  color: red
+}
+
+.form-error-placeholder {
+  color: #777;
+}
+
+.form-error-correct-placeholder {
+  color: green;
+}

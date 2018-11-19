@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../../../services/login/login.service';
+import { emailRegex } from '../../../../constants/regExps';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +16,15 @@ export class LoginComponent implements OnInit {
   user;
 
   profileForm = this.fb.group({
-    name: ['', Validators.compose([
+    email: ['', Validators.compose([
       Validators.required,
-      Validators.minLength(6)
+      Validators.pattern(emailRegex)
     ])],
     password: ['', [
-      Validators.required
+      Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ])
     ]],
   });
 
@@ -35,9 +39,14 @@ export class LoginComponent implements OnInit {
     // TODO: Use EventEmitter with form value
     console.log(this.profileForm.value);
     this._loginService.login(this.profileForm.value)
-      .subscribe(user => {
-        this.user = user
-        window.localStorage.setItem('token', user['token'])
-      })
+      .subscribe(
+        user => {
+          this.user = user
+          window.localStorage.setItem('token', user['token'])
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 }

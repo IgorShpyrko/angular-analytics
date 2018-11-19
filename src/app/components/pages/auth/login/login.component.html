@@ -3,21 +3,24 @@
 <form appAuthFormDisplay [formGroup]="profileForm" (ngSubmit)="onLogin()">
 
   <div appFormItem class='form-item'>
-    <label for="name">Name:</label>
-    <input id="name" type="text" formControlName="name">
+    <label for="email">Email:</label>
+    <input id="email" type="email" formControlName="email">
   </div>
   
   <div appFormItem class='form-error'>
     <div></div>
-    <div class='form-error-correct-placeholder' *ngIf='!f.name.errors || !f.name.touched'>
-      Login conditions are fulfilled
+    <div class='form-error-placeholder' *ngIf='!f.email.touched'>
+      Enter email
     </div>
-    <div *ngIf='f.name.errors && f.name.touched'>
-      <div *ngIf='f.name.errors?.required'>
-        login is required
+    <div class='form-error-correct-placeholder' *ngIf='!f.email.errors && f.email.touched'>
+      Email conditions are fulfilled
+    </div>
+    <div *ngIf='f.email.errors && f.email.touched'>
+      <div *ngIf='f.email.errors?.required'>
+        Email is required
       </div>
-      <div *ngIf='f.name.errors?.minlength'>
-        login must contain at least 6 characters
+      <div *ngIf='f.email.errors?.pattern'>
+        Email must be valid
       </div>
     </div>
   </div>
@@ -25,6 +28,24 @@
   <div appFormItem class='form-item'>
     <label for="password">Password:</label>
     <input id="password" type="password" formControlName="password">
+  </div>
+
+  <div appFormItem class='form-error'>
+    <div></div>
+    <div class='form-error-placeholder' *ngIf='!f.password.touched'>
+      Enter password
+    </div>
+    <div class='form-error-correct-placeholder' *ngIf='!f.password.errors && f.password.touched'>
+      Password conditions are fulfilled
+    </div>
+    <div *ngIf='f.password.errors && f.password.touched'>
+      <div *ngIf='f.password.errors?.required'>
+        Password is required
+      </div>
+      <div *ngIf='f.password.errors?.minlength'>
+        Password must contain min 6 characters
+      </div>
+    </div>
   </div>
 
   <div class='auth-action-btn-wrapper'>

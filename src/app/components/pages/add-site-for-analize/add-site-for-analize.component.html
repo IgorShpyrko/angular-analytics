@@ -1,3 +1,43 @@
 <p>
   add-site-for-analize works!
 </p>
+<div class="add-site">
+
+  <div class="add-new-site-wrapper">
+  
+    <h3>Add new site to track events</h3>
+  
+    <form appAuthFormDisplay [formGroup]="profileForm" (ngSubmit)="onAddNewSite()">
+  
+      <div appFormItem class='form-item'>
+        <label for="email">Email:</label>
+        <input id="email" type="email" formControlName="email">
+      </div>
+      
+      <div appFormItem class='form-error'>
+        <div></div>
+        <div class='form-error-placeholder' *ngIf='!f.email.touched'>
+          Enter email
+        </div>
+        <div class='form-error-correct-placeholder' *ngIf='!f.email.errors && f.email.touched'>
+          Email conditions are fulfilled
+        </div>
+        <div *ngIf='f.email.errors && f.email.touched'>
+          <div *ngIf='f.email.errors?.required'>
+            Email is required
+          </div>
+          <div *ngIf='f.email.errors?.pattern'>
+            Email must be valid
+          </div>
+        </div>
+      </div>
+      <button appBtnDirective type="submit" [disabled]="!profileForm.valid">Add</button>
+    </form>
+    
+  </div>
+
+  <h3>Sites you are already tracking</h3>
+  <ul *ngFor="let site of sites">
+    <li>{{site.name}}</li>
+  </ul>
+</div>

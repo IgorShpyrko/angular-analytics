@@ -1,16 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { RegisterService } from '../../../../services/register/register.service';
-
-const emailRegex = '^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$';
-
-// At least one upper case English letter, (?=.*?[A-Z])
-// At least one lower case English letter, (?=.*?[a-z])
-// At least one digit, (?=.*?[0-9])
-// At least one special character, (?=.*?[#?!@$%^&*-])
-// Minimum eight in length .{8,} (with the anchors)
-// const passRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
-const passRegex = "";
+import { emailRegex, passRegex } from '../../../../constants/regExps';
 
 @Component({
   selector: 'app-register',
