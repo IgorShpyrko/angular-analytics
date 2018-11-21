@@ -10,23 +10,23 @@
     <form appAuthFormDisplay [formGroup]="profileForm" (ngSubmit)="onAddNewSite()">
   
       <div appFormItem class='form-item'>
-        <label for="email">Email:</label>
-        <input id="email" type="email" formControlName="email">
+        <label for="name">Enter path to the site</label>
+        <input id="name" type="text" formControlName="name">
       </div>
       
       <div appFormItem class='form-error'>
         <div></div>
-        <div class='form-error-placeholder' *ngIf='!f.email.touched'>
-          Enter email
+        <div class='form-error-placeholder' *ngIf='!f.name.touched'>
+          path to the site
         </div>
-        <div class='form-error-correct-placeholder' *ngIf='!f.email.errors && f.email.touched'>
+        <div class='form-error-correct-placeholder' *ngIf='!f.name.errors && f.name.touched'>
           Email conditions are fulfilled
         </div>
-        <div *ngIf='f.email.errors && f.email.touched'>
-          <div *ngIf='f.email.errors?.required'>
+        <div *ngIf='f.name.errors && f.name.touched'>
+          <div *ngIf='f.name.errors?.required'>
             Email is required
           </div>
-          <div *ngIf='f.email.errors?.pattern'>
+          <div *ngIf='f.name.errors?.pattern'>
             Email must be valid
           </div>
         </div>
@@ -38,6 +38,9 @@
 
   <h3>Sites you are already tracking</h3>
   <ul *ngFor="let site of sites">
-    <li>{{site.name}}</li>
+    <li>
+      {{site.name}}
+      <span class='close-icon' (click)='onDeleteClick(site)'>&#x2715;</span>
+    </li>
   </ul>
 </div>

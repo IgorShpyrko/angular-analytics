@@ -23,3 +23,7 @@
 .form-error-correct-placeholder {
   color: green;
 }
+
+.close-icon {
+  cursor: pointer;
+}

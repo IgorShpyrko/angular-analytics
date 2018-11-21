@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../../../services/login/login.service';
+import { TokenService } from '../../../../services/token/token.service';
 import { emailRegex } from '../../../../constants/regExps';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +13,9 @@ import { emailRegex } from '../../../../constants/regExps';
 export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
-    private _loginService: LoginService) { }
-
-  user;
+    private _loginService: LoginService,
+    private _tokenService: TokenService,
+    private _router: Router) { }
 
   profileForm = this.fb.group({
     email: ['', Validators.compose([
@@ -37,12 +39,15 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     // TODO: Use EventEmitter with form value
-    console.log(this.profileForm.value);
     this._loginService.login(this.profileForm.value)
       .subscribe(
-        user => {
-          this.user = user
-          window.localStorage.setItem('token', user['token'])
+        (user: {email: string, token: string}):void => {
+          // change LoggedIn to true and pass to header
+
+          this._tokenService.set(user.token);
+          this._loginService.changeIsLoggedIn(true);
+          this._router.navigate(['/'], {});
+          return
         },
         error => {
           console.log(error)

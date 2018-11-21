@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { emailRegex } from '../../../constants/regExps';
-import { GetAllSitesService} from '../../../services/getAllSites/get-all-sites.service'
+import { pathRegexp } from '../../../constants/regExps';
+import { SitesService } from '../../../services/sites/sites.service'
 
 @Component({
   selector: 'app-add-site-for-analize',
@@ -12,7 +12,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _getAllSitesService: GetAllSitesService
+    private _sitesService: SitesService
   ) { }
 
   mockSites = [
@@ -23,29 +23,38 @@ export class AddSiteForAnalizeComponent implements OnInit {
     {name: 'fifth site'},
     {name: 'sixth site'},
   ];
+
   sites;
 
   profileForm = this.fb.group({
-    email: ['', Validators.compose([
+    name: ['', Validators.compose([
       Validators.required,
-      Validators.pattern(emailRegex)
+      Validators.pattern(pathRegexp)
     ])]
   });
 
   ngOnInit() {
-    this._getAllSitesService.getAll()
+    // TODO: uncomment when server is ready
+    this._sitesService.getAll()
       .subscribe(
         sites => {
         this.sites = sites
         },
         error => {
           console.log(error)
+          this.sites = this.mockSites
         }
       )
   }
 
+  onDeleteClick(site) {
+    if (!site) return
+    this._sitesService.removeSite(site.name)
+      .subscribe(sites => this.sites = sites)
+  }
+
   onAddNewSite() {
-    console.log('adding')
+    this._sitesService.addSite(this.profileForm.controls.name.value)
   }
 
   get f() {

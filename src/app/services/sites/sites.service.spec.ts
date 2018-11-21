@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GetAllSitesService } from './get-all-sites.service';
+import { SitesService } from './sites.service';
 
-describe('GetAllSitesService', () => {
+describe('SitesService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GetAllSitesService = TestBed.get(GetAllSitesService);
+    const service: SitesService = TestBed.get(SitesService);
     expect(service).toBeTruthy();
   });
 });

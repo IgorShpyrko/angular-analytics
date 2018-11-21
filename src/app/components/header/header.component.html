@@ -15,7 +15,14 @@
         </a>
       </nav>
     </div>
-    <div>
+
+    <div *ngIf = 'loggedIn'>
+      <a class ='nav-button' (click)="onLogOut()">
+        <span>Log out</span>
+      </a>
+    </div>
+
+    <div *ngIf = '!loggedIn'>
       <a class ='nav-button' [routerLink]="['/auth']">
         <span>Log in</span>
       </a>

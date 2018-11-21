@@ -16,9 +16,10 @@ import { RegisterComponent } from './components/pages/auth/register/register.com
 import { ForgotPasswordComponent } from './components/pages/auth/forgot-password/forgot-password.component';
 import { AuthFormDisplayDirective } from './directives/authFormDisplay/auth-form-display.directive';
 import { FormItemDirective } from './directives/formItem/form-item.directive';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PassHelpDirective } from './directives/pass-help/pass-help.directive';
 import { BtnDirectiveDirective } from './directives/btn-directive/btn-directive.directive';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,13 @@ import { BtnDirectiveDirective } from './directives/btn-directive/btn-directive.
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
