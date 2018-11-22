@@ -15,15 +15,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
     private _sitesService: SitesService
   ) { }
 
-  mockSites = [
-    {name: 'first site'},
-    {name: 'second site'},
-    {name: 'third site'},
-    {name: 'forth site'},
-    {name: 'fifth site'},
-    {name: 'sixth site'},
-  ];
-
   sites;
 
   profileForm = this.fb.group({
@@ -34,15 +25,15 @@ export class AddSiteForAnalizeComponent implements OnInit {
   });
 
   ngOnInit() {
-    // TODO: uncomment when server is ready
     this._sitesService.getAll()
       .subscribe(
-        sites => {
-        this.sites = sites
+        (sites: {site: []}) => {
+          console.log('initSites: ', sites)
+        this.sites = sites.site
         },
         error => {
           console.log(error)
-          this.sites = this.mockSites
+          this.sites = []
         }
       )
   }
@@ -54,7 +45,11 @@ export class AddSiteForAnalizeComponent implements OnInit {
   }
 
   onAddNewSite() {
+    console.log('adding')
     this._sitesService.addSite(this.profileForm.controls.name.value)
+      .subscribe(data => {
+        console.log(data)
+      })
   }
 
   get f() {

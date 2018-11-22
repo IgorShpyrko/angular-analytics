@@ -49,10 +49,11 @@ export class SitesService {
     const bodyParams = {
       method: 'POST',
       mode: 'cors',
-      headers: this.headers,
       site: site
     };
 
+    console.log(url);
+    console.log(bodyParams);
     return this._http.post(url, bodyParams);
   }
 
