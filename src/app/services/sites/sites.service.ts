@@ -15,10 +15,7 @@ export class SitesService {
   });
 
   getAll() {
-    if (!this.token) {
-      console.error('no token in LocalStorage!!!');
-      return
-    }
+    if (!this.token) return
 
     const url = `${API.serverUrl}${API.sites}`;
 
@@ -30,14 +27,14 @@ export class SitesService {
     return this._http.get(url, bodyParams);
   }
 
-  removeSite(id: number) {
+  removeSite(uuid: number) {
     const url = `${API.serverUrl}${API.sites}`;
 
     const bodyParams = {
       mode: 'cors',
       headers: this.headers,
       body: {
-        id: JSON.stringify(id)
+        uuid: uuid
       }
     };
 

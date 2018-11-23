@@ -62,10 +62,9 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   onDeleteClick(site) {
     if (!site) return
-    console.log(site)
-    this._sitesService.removeSite(site.id)
+    this._sitesService.removeSite(site.uuid)
       .subscribe(
-        this.sites = this.sites.filter(thisSite => thisSite.id !== site.id)
+        this.sites = this.sites.filter(thisSite => thisSite.uuid !== site.uuid)
       )
   }
 

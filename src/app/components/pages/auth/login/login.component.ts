@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    // TODO: Use EventEmitter with form value
     this._loginService.login(this.profileForm.value)
       .subscribe(
         (user: {email: string, token: string}): void => {

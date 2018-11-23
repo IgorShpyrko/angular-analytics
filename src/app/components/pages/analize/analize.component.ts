@@ -9,12 +9,17 @@ import { SitesService } from '../../../services/sites/sites.service';
 export class AnalizeComponent implements OnInit {
   constructor(private _siteService: SitesService) { }
 
-  siteList: []
+  siteList: [];
+  mockEventList:Array<string> = [
+    'click',
+    'keypress',
+    'input',
+    'change'
+  ]
 
   ngOnInit() {
     this._siteService.getAll()
       .subscribe((sites: {site: []}) => {
-        console.log(sites)
         this.siteList = sites.site
       })
   }
