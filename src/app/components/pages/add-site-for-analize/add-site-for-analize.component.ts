@@ -16,6 +16,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
   ) { }
 
   sites;
+  checkedSite: number;
 
   profileForm = this.fb.group({
     name: ['', Validators.compose([
@@ -28,8 +29,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
     this._sitesService.getAll()
       .subscribe(
         (sites: {site: []}) => {
-          console.log('initSites: ', sites)
-        this.sites = sites.site
+          this.sites = sites.site
         },
         error => {
           console.log(error)
@@ -38,17 +38,44 @@ export class AddSiteForAnalizeComponent implements OnInit {
       )
   }
 
+  onBlur(e, idx) {
+    if (this.checkedSite === idx) {
+      this.checkedSite = -1;
+      return
+    }
+  }
+
+  initChangeMode(e, idx) {
+    if (!e) {
+      this.checkedSite = -1;
+      return;
+    }
+    console.log(idx)
+    this.checkedSite = +idx;
+    console.log(e.target)
+  }
+
+  changeSiteValue(e) {
+    console.log('changing')
+    console.log(e.target.value)
+  }
+
   onDeleteClick(site) {
     if (!site) return
-    this._sitesService.removeSite(site.name)
-      .subscribe(sites => this.sites = sites)
+    console.log(site)
+    this._sitesService.removeSite(site.id)
+      .subscribe(
+        this.sites = this.sites.filter(thisSite => thisSite.id !== site.id)
+      )
   }
 
   onAddNewSite() {
-    console.log('adding')
     this._sitesService.addSite(this.profileForm.controls.name.value)
-      .subscribe(data => {
-        console.log(data)
+      .subscribe((data: {site:any}): void => {
+        this.sites.push(data.site)
+        this.profileForm.controls.name.setValue('')
+      }, error => {
+        console.log(error)
       })
   }
 

@@ -1,6 +1,3 @@
-<p>
-  add-site-for-analize works!
-</p>
 <div class="add-site">
 
   <div class="add-new-site-wrapper">
@@ -36,11 +33,26 @@
     
   </div>
 
-  <h3>Sites you are already tracking</h3>
-  <ul *ngFor="let site of sites">
-    <li>
-      {{site.name}}
-      <span class='close-icon' (click)='onDeleteClick(site)'>&#x2715;</span>
-    </li>
-  </ul>
+  <div class = 'sites'>
+    
+    <h3>Sites you are already tracking</h3>
+    
+    <div class='' *ngIf='sites && sites.length === 0'>
+      <h4>Start with adding your first site for listening </h4>
+    </div>
+
+    <ul *ngFor="let site of sites; let idx = index">
+
+      <li>
+        <span (click)='initChangeMode($event, idx)'>{{site.address}}</span>
+        <span class='close-icon' (click)='onDeleteClick(site)'>&#x2715;</span>
+        <div *ngIf='idx === checkedSite'>
+          <span>new value: </span>
+          <input autofocus type="text" value='{{site.address}}' (input)='changeSiteValue($event)' (blur)='onBlur($event, idx)'>
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
 </div>

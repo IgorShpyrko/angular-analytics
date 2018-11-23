@@ -11,18 +11,18 @@ export class SitesService {
   private token:string = window.localStorage.getItem('token');
 
   private headers = new HttpHeaders({
-    'Content-Type':  'multipart/form-data'
+    'Content-Type':  'application/json'
   });
 
   getAll() {
     if (!this.token) {
-      console.error('no token in LocalStorage!!!')
+      console.error('no token in LocalStorage!!!');
+      return
     }
 
     const url = `${API.serverUrl}${API.sites}`;
 
     const bodyParams = {
-      method: 'GET',
       mode: 'cors',
       headers: this.headers
     };
@@ -30,14 +30,15 @@ export class SitesService {
     return this._http.get(url, bodyParams);
   }
 
-  removeSite(site: string) {
-    const url = `${API.serverUrl}${API.sites}${API.deleteSite}`;
+  removeSite(id: number) {
+    const url = `${API.serverUrl}${API.sites}`;
 
     const bodyParams = {
-      method: 'DELETE',
       mode: 'cors',
       headers: this.headers,
-      site: site
+      body: {
+        id: JSON.stringify(id)
+      }
     };
 
     return this._http.delete(url, bodyParams);
@@ -52,8 +53,6 @@ export class SitesService {
       site: site
     };
 
-    console.log(url);
-    console.log(bodyParams);
     return this._http.post(url, bodyParams);
   }
 

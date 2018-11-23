@@ -16,8 +16,6 @@ export class RegisterService {
   constructor(private _http: HttpClient) { }
 
   register(newUser) {
-    console.log(newUser)
-    console.log(JSON.stringify(newUser))
     if (!newUser) {
       return
     }

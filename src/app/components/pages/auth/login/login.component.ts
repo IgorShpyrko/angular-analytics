@@ -41,12 +41,12 @@ export class LoginComponent implements OnInit {
     // TODO: Use EventEmitter with form value
     this._loginService.login(this.profileForm.value)
       .subscribe(
-        (user: {email: string, token: string}):void => {
+        (user: {email: string, token: string}): void => {
           // change LoggedIn to true and pass to header
 
           this._tokenService.set(user.token);
           this._loginService.changeIsLoggedIn(true);
-          this._router.navigate(['/'], {});
+          this._router.navigate(['/new'], {});
           return
         },
         error => {
