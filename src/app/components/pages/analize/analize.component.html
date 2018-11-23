@@ -1,3 +1,38 @@
-<p>
-  analize works!
-</p>
+<div class="analize-wrapper">
+  <h3>Here you can watch statistic of your sites</h3>
+  <div class="select-wrapper">
+    <h4>Select site and events you want to analise</h4>
+
+    <div class="select-component">
+      <div class="select-site">
+        <select name="site-select" id="">
+          <option disabled value="select site">select site</option>
+          <option *ngFor='let site of siteList' value="site.address">{{site.address}}</option>
+        </select>
+      </div>
+  
+      <div class="select-events">
+        <select name="site-select" id="">
+          <!-- 
+            <option *ngFor='event of eventList value="event">{{event}}</option>
+          -->
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>event header</th>
+        <th>id header</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>frist event name</td>
+        <td>frist event name</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

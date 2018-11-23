@@ -46,6 +46,7 @@ export class SitesService {
 
   addSite(site: string) {
     const url = `${API.serverUrl}${API.sites}${API.add}`;
+    console.log(site)
 
     const bodyParams = {
       method: 'POST',

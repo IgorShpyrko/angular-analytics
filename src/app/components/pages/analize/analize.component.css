@@ -1,0 +1,10 @@
+.select-wrapper h4 {
+  text-align: center;
+}
+
+.select-component {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 500px;
+}

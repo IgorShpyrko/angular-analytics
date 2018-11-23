@@ -42,11 +42,9 @@ export class LoginComponent implements OnInit {
     this._loginService.login(this.profileForm.value)
       .subscribe(
         (user: {email: string, token: string}): void => {
-          // change LoggedIn to true and pass to header
-
           this._tokenService.set(user.token);
           this._loginService.changeIsLoggedIn(true);
-          this._router.navigate(['/new'], {});
+          this._router.navigate(['/analize'], {});
           return
         },
         error => {
