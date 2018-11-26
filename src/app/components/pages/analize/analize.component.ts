@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SitesService } from '../../../services/sites/sites.service';
+import { SitesService } from 'src/app/services/sites/sites.service';
+import { ActionsService } from 'src/app/services/actions/actions.service';
 
 @Component({
   selector: 'app-analize',
@@ -7,21 +8,47 @@ import { SitesService } from '../../../services/sites/sites.service';
   styleUrls: ['./analize.component.css']
 })
 export class AnalizeComponent implements OnInit {
-  constructor(private _siteService: SitesService) { }
+  constructor(
+    private _siteService: SitesService,
+    private _actionsService: ActionsService) { }
 
   siteList: [];
-  mockEventList:Array<string> = [
+  selectedEvent:string = '';
+  selectedSiteUUID: string = '';
+
+  mockEventList = [
     'click',
-    'keypress',
     'input',
-    'change'
+    'hover'
   ]
 
   ngOnInit() {
-    this._siteService.getAll()
+    this._siteService.getAllSites()
       .subscribe((sites: {site: []}) => {
         this.siteList = sites.site
       })
+  }
+
+  onSelectSite(e) {
+    this.selectedSiteUUID = e.target.value;
+
+    if ((this.selectedEvent !== '') && (this.selectedSiteUUID !== '')) {
+      this._actionsService.getActions(this.selectedSiteUUID, this.selectedEvent)
+       .subscribe(data => {
+         console.log(data)
+       })
+    }
+  }
+
+  onSelectEvent(e) {
+    this.selectedEvent = e.target.value;
+
+    if ((this.selectedEvent !== '') && (this.selectedSiteUUID !== '')) {
+      this._actionsService.getActions(this.selectedSiteUUID, this.selectedEvent)
+       .subscribe(data => {
+         console.log(data)
+       })
+    }
   }
 
 }

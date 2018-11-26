@@ -26,7 +26,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
   });
 
   ngOnInit() {
-    this._sitesService.getAll()
+    this._sitesService.getAllSites()
       .subscribe(
         (sites: {site: []}) => {
           this.sites = sites.site

@@ -14,7 +14,7 @@ export class SitesService {
     'Content-Type':  'application/json'
   });
 
-  getAll() {
+  getAllSites() {
     if (!this.token) return
 
     const url = `${API.serverUrl}${API.sites}`;
@@ -43,7 +43,6 @@ export class SitesService {
 
   addSite(site: string) {
     const url = `${API.serverUrl}${API.sites}${API.add}`;
-    console.log(site)
 
     const bodyParams = {
       method: 'POST',

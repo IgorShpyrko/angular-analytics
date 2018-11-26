@@ -9,5 +9,7 @@ export const API = {
   clicks:'/api/clicks',
   deleteSite: '/delete',
   add: '/add',
-  edit: '/edit'
+  edit: '/edit',
+  events: '/events',
+  get: '/get'
 }

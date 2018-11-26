@@ -6,16 +6,18 @@
     <div class="select-component">
       <div class="select-site">
         <h4>Site</h4>
-        <select name="site-select" id="">
+        <select name="site-select" id="" (change)='onSelectSite($event)'>
           <option disabled value="select site">select site</option>
-          <option *ngFor='let site of siteList' value="site.address">{{site.address}}</option>
+          <option *ngFor='let site of siteList' value={{site.uuid}}>{{site.address}}</option>
         </select>
       </div>
   
       <div class="select-events">
         <h4>Event</h4>
-        <select name="site-select" id="">
-          <option *ngFor='let event of mockEventList' value="event">{{event}}</option>
+        <select name="site-select" id="" (change)='onSelectEvent($event)'>
+          <option disabled value="select site">select event</option>
+          <option value="all">all events</option>
+          <option *ngFor='let event of mockEventList' value={{event}}>{{event}}</option>
         </select>
       </div>
     </div>
