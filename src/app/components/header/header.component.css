@@ -1,5 +1,5 @@
 .header-wrapper {
-  padding-bottom: 20px;
+  min-height: calc(10vh - 1px);
   border-bottom: 1px solid black;
 }
 

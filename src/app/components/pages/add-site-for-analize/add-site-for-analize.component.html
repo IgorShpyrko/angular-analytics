@@ -28,6 +28,23 @@
           </div>
         </div>
       </div>
+
+      <div class="event-list" *ngIf='eventList.length !== 0'>
+        <span><b>Choosed events: </b></span>
+        <span *ngFor='let event of eventList; let idx = index'>
+          {{event}}
+          <span *ngIf='idx !== eventList.length - 1'> ,</span>
+        </span>
+      </div>
+
+      <div appFormItem class="select-events">
+        <span><b>Choose events to listen for</b></span>
+        <select name="site-select" id="" (change)='onSelectEvent($event)' formControlName='choosedEvents'>
+          <option disabled value='default'>select event</option>
+          <option *ngFor='let event of mockEventList' value={{event}}>{{event}}</option>
+        </select>
+      </div>
+
       <button appBtnDirective type="submit" [disabled]="!profileForm.valid">Add</button>
     </form>
     
@@ -44,15 +61,16 @@
     <ul *ngFor="let site of sites; let idx = index">
 
       <li>
-        <span (click)='initChangeMode($event, idx)'>{{site.address}}</span>
+        <span (click)='openModal($event, idx)'>{{site.address}}</span>
         <span class='close-icon' (click)='onDeleteClick(site)'>&#x2715;</span>
-        <div *ngIf='idx === checkedSite'>
-          <span>new value: </span>
-          <input autofocus type="text" value='{{site.address}}' (input)='changeSiteValue($event)' (blur)='onBlur($event, idx)'>
-        </div>
       </li>
-
+      
     </ul>
-
+    <app-modal 
+      *ngIf="checkedSite && +checkedSite > -1"
+      [Data]="sites[checkedSite]"
+      (onClose)="closeModal($event)"
+      (onChange)=changeSite($event)>
+    </app-modal>
   </div>
 </div>

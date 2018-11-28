@@ -14,6 +14,21 @@ export class SitesService {
     'Content-Type':  'application/json'
   });
 
+  attachEvents(uuid: string, eventList: string[]) {
+    if (!eventList) return;
+
+    const url = `${API.serverUrl}${API.events}${API.attach}`; 
+
+    const bodyParams = {
+      "site": {
+        "uuid": uuid,
+        "events": eventList
+      }
+    }
+    return this._http.post(url, bodyParams);
+
+  }
+
   getAllSites() {
     if (!this.token) return
 

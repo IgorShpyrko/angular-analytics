@@ -1,0 +1,16 @@
+<div class="modal-wrapper" (click)="close($event)">
+  <div class="modal-container">
+    <h3>Change site params</h3>
+    <div>
+      <span>Site address</span> <input type="text" value={{address}} (input)="change($event.target.value)">
+      <ul>
+        <li *ngFor="let event of eventList">
+          {{event}} 
+          <span>&#x2715;</span>
+        </li>
+      </ul>
+      
+    </div>
+    <button (click)="applyChanges()">Apply changes</button>
+  </div>
+</div>

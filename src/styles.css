@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  padding:0;
+}
+
 button[disabled] {
   color: rgb(70, 70, 70) !important;
 }
