@@ -20,7 +20,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PassHelpDirective } from './directives/pass-help/pass-help.directive';
 import { BtnDirectiveDirective } from './directives/btn-directive/btn-directive.directive';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { ModalComponent } from './shared/modal/modal.component';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({

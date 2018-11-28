@@ -1,16 +1,25 @@
 <div class="modal-wrapper" (click)="close($event)">
   <div class="modal-container">
     <h3>Change site params</h3>
-    <div>
-      <span>Site address</span> <input type="text" value={{address}} (input)="change($event.target.value)">
-      <ul>
-        <li *ngFor="let event of eventList">
-          {{event}} 
-          <span>&#x2715;</span>
-        </li>
-      </ul>
-      
-    </div>
-    <button (click)="applyChanges()">Apply changes</button>
+    <form [formGroup]="profileForm" (ngSubmit)="applyChanges()">
+
+      <div>
+        <span>Site address</span>
+        <input 
+          type="text"
+          (input)="change($event.target.value)"
+          formControlName="address">
+
+        <ul>
+          <li *ngFor="let event of eventList">
+            <span>{{event}}</span>
+            <span (click)="deleteEvent($event)">&#x2715;</span>
+          </li>
+        </ul>
+      </div>
+
+      <button type="submit">Apply changes</button>
+
+    </form>
   </div>
 </div>

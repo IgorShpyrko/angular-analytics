@@ -1,7 +1,10 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { pathRegexp } from '../../constants/regExps';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActionsService } from '../../services/actions/actions.service';
+import { SitesService } from 'src/app/services/sites/sites.service';
 
-interface changes {
+interface Changes {
   address: string;
   eventList: string[];
 }
@@ -14,30 +17,49 @@ interface changes {
 export class ModalComponent implements OnInit {
 
   @Input() Data: any;
-  constructor(private _actionsService: ActionsService) { }
+  constructor(
+    private fb: FormBuilder,
+    private _actionsService: ActionsService,
+    private _siteService: SitesService) { }
 
   address: string;
   uuid: string;
   eventList: string[];
   submittedEventList: string[];
+
+  profileForm = this.fb.group({
+    address:[
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.pattern(pathRegexp)
+      ])
+    ]
+  })
   
   ngOnInit() {
     this.address = this.Data.address;
     this.uuid = this.Data.uuid;
     this.eventList = this._actionsService.getActionsList();
+
     this._actionsService.getSubmitedActionsList(this.uuid)
       .subscribe(data => {
         console.log(data)
       },
       error => {
         console.log(error)
-      })
-    console.log('init', this.Data)
+      });
   }
 
-  @Output() onApplyChanges = new EventEmitter<changes>();
+  // @Output() onApplyChanges = new EventEmitter<Changes>();
   applyChanges() {
     console.log('applying')
+
+    // let changes = {
+    //   address: '',
+    //   eventList: []
+    // }
+    // this.onApplyChanges.emit(changes)
   }
   
   @Output() onClose = new EventEmitter<boolean>();
@@ -47,9 +69,23 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  @Output() onChange = new EventEmitter<string>();
   change(value) {
-    this.onChange.emit(value)
+    console.log(value)
+  };
+
+  deleteEvent(e) {
+    console.log(e.target.previousSibling.innerText)
+    let eventToDelete = e.target.previousSibling.innerText;
+    let newEvents = this.eventList.filter(event => event !== eventToDelete)
+    this._siteService.attachEvents(this.uuid, newEvents)
+      .subscribe(data => {
+        console.log(data)
+      })
+
   }
+
+  get f() {
+    return this.profileForm.controls;
+  };
 
 }

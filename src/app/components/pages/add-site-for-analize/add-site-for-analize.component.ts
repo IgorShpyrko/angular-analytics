@@ -17,9 +17,9 @@ export class AddSiteForAnalizeComponent implements OnInit {
     private _actionsService: ActionsService
   ) { }
 
-  sites;
+  sites: string[] = [];
   checkedSite: number;
-  eventList:string[];
+  eventList:string[] = [];
   actionsList:string[];
 
   profileForm = this.fb.group({
@@ -39,8 +39,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.eventList = [];
-
     this._sitesService.getAllSites()
       .subscribe(
         (sites: {site: []}) => {
@@ -48,7 +46,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
         },
         error => {
           console.log(error)
-          this.sites = []
         }
       );
 
@@ -65,16 +62,12 @@ export class AddSiteForAnalizeComponent implements OnInit {
     e.target.value = 'default'
   };
 
-  onBlur(e, idx) {
-    if (this.checkedSite === idx) {
-      this.checkedSite = -1;
-      return
-    }
+  applyChanges(changes) {
+    console.log(changes)
   }
 
-  closeModal(event) {
-    if (event) {
-      console.log('closing')
+  closeModal(params: boolean) {
+    if (params) {
       this.checkedSite = -1
     }
   }
@@ -84,22 +77,19 @@ export class AddSiteForAnalizeComponent implements OnInit {
       this.checkedSite = -1;
       return;
     }
-    console.log(idx)
     this.checkedSite = idx.toString();
-    console.log(e.target);
-    console.log(this.checkedSite);
-  }
-
-  changeSite(e) {
-    console.log('changing')
-    console.log(e)
   }
 
   onDeleteClick(site) {
     if (!site) return
     this._sitesService.removeSite(site.uuid)
       .subscribe(
-        this.sites = this.sites.filter(thisSite => thisSite.uuid !== site.uuid)
+        data => {
+          this.sites = this.sites.filter( (item: any) => item.uuid !== site.uuid )
+        },
+        error => {
+          console.log(error)
+        }
       )
   }
 
@@ -112,9 +102,12 @@ export class AddSiteForAnalizeComponent implements OnInit {
           },
           error => {
             console.log(error)
-          })
-        this.sites.push(data.site)
-        this.profileForm.controls.name.setValue('')
+          });
+
+        this.sites.push(data.site);
+        this.profileForm.controls.name.setValue('');
+        this.eventList = [];
+        
       }, error => {
         console.log(error)
       })
@@ -122,6 +115,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   get f() {
     return this.profileForm.controls;
-  }
+  };
 
 }
