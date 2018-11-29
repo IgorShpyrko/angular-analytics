@@ -13,5 +13,6 @@ export const API = {
   events: '/events',
   get: '/get',
   attach: '/attach',
+  deleteAttach: '/deleteAttach',
   allTypes: '/allTypes'
 }

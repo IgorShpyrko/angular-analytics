@@ -1,13 +1,11 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { pathRegexp } from '../../constants/regExps';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActionsService } from '../../services/actions/actions.service';
-import { SitesService } from 'src/app/services/sites/sites.service';
 
 interface Changes {
   address: string;
   uuid: string;
-  actionsList: string[];
+  eventsList: string[];
 }
 
 @Component({
@@ -17,16 +15,12 @@ interface Changes {
 })
 export class ModalComponent implements OnInit {
 
-  @Input() Data: any;
-  constructor(
-    private fb: FormBuilder,
-    private _actionsService: ActionsService,
-    private _sitesService: SitesService) { }
-
-  address: string;
-  uuid: string;
-  actionsList: string[];
-  submittedEventList: string[];
+  @Input() site: any;
+  @Input() eventsList: any;
+  @Input() actionsList: any;
+  constructor(private fb: FormBuilder) {
+    console.log(this)
+  }
 
   profileForm = this.fb.group({
     address:[
@@ -39,84 +33,44 @@ export class ModalComponent implements OnInit {
   })
   
   ngOnInit() {
-    this.address = this.Data.address;
-    this.uuid = this.Data.uuid;
-    this._actionsService.getActionsList()
-      .subscribe((data: string[]) => {
-        console.log(data)
-        this.actionsList = data
-      },
-      error => {
-        console.log(error)
-      })
-
-    this._actionsService.getSubmitedActionsList(this.uuid)
-      .subscribe((data: {events: string[]}) => {
-        console.log(data)
-        this.submittedEventList = data.events
-      },
-      error => {
-        console.log(error)
-      });
+    this.profileForm.setValue({
+      address: this.site.address
+    });
   }
 
-  selectNewEvent(e) {
-    
-    console.log(e.target.value)
-
+  addNewEvent(e) {
     let newValue = e.target.value;
 
-    if (!newValue) return;
-
-    if (!this.submittedEventList.includes(newValue)) {
-      this.submittedEventList.push(newValue)
+    if (!this.eventsList.includes(newValue)) {
+      this.eventsList.push(newValue)
     }
-
   }
 
-  // @Output() onApplyChanges = new EventEmitter<Changes>();
+  @Output() onApplyChanges = new EventEmitter<Changes>()
   applyChanges() {
 
-    // let changes = {
-    //   address: this.address,
-    //   uuid: this.uuid,
-    //   actionsList: this.submittedEventList
-    // };
+    const changes: Changes = {
+      address: this.profileForm.controls.address.value,
+      uuid: this.site.uuid,
+      eventsList: this.eventsList || []
+    };
 
-    if (this.submittedEventList.length !== 0) {
-      this._sitesService.attachEvents(this.uuid, this.actionsList)
-      .subscribe(data => {
-        console.log(data)
-        this.onClose.emit(true)
-      },
-      error => {
-        console.log(error)
-      })
-    }
-
-    // this.onApplyChanges.emit(changes);
+    this.onApplyChanges.emit(changes);
   }
   
   @Output() onClose = new EventEmitter<boolean>();
-  close(e) {
+  close() {
+    this.onClose.emit(true)
+  }
+
+  clickOnWrapper(e) {
     if (e.target.className === 'modal-wrapper') {
       this.onClose.emit(true)
     }
   }
 
-  change(value) {
-    console.log(value)
-  };
-
-  deleteAction(e) {
-    console.log(e.target.previousSibling.innerText)
-    let eventToDelete = e.target.previousSibling.innerText;
-    let newActions = this.actionsList.filter(action => action !== eventToDelete)
-    this._sitesService.attachEvents(this.uuid, newActions)
-      .subscribe(data => {
-        console.log(data)
-      })
-
+  deleteEvent(e) {
+    this.eventsList = this.eventsList.filter(event => event !== e.target.previousSibling.innerText)
   }
 
   get f() {

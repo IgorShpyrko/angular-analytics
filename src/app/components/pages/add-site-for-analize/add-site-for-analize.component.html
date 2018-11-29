@@ -29,19 +29,19 @@
         </div>
       </div>
 
-      <div appFormItem class="select-events">
-        <span><b>Choose events to listen for</b></span>
+      <div appFormItem class="select-actions">
+        <span><b>Choose actions to listen for</b></span>
         <select name="site-select" id="" (change)='onSelectNewEvent($event)' formControlName='choosedEvents'>
-          <option disabled value='default'>select event</option>
-          <option *ngFor='let event of actionsList' value={{event}}>{{event}}</option>
+          <option disabled value='default'>select actions</option>
+          <option *ngFor='let action of actionsList' value={{action}}>{{action}}</option>
         </select>
       </div>
       
-      <div class="event-list" *ngIf='eventList.length !== 0'>
+      <div class="event-list" *ngIf='eventsList.length !== 0'>
         <span><b>Choosed events: </b></span>
-        <span *ngFor='let event of eventList; let idx = index'>
+        <span *ngFor='let event of eventsList; let idx = index'>
           {{event}}
-          <span *ngIf='idx !== eventList.length - 1'> ,</span>
+          <span *ngIf='idx !== eventsList.length - 1'> ,</span>
         </span>
       </div>
 
@@ -58,19 +58,22 @@
       <h4>Start with adding your first site for listening </h4>
     </div>
 
-    <ul *ngFor="let site of sites; let idx = index">
+    <ul>
 
-      <li>
+      <li *ngFor="let site of sites; let idx = index">
         <span (click)='openModal($event, idx)'>{{site.address}}</span>
         <span class='close-icon' (click)='onDeleteClick(site)'>&#x2715;</span>
       </li>
       
     </ul>
     <app-modal 
-      *ngIf="checkedSite && +checkedSite > -1"
-      [Data]="sites[checkedSite]"
+      *ngIf="checkedSite"
+      [site]="checkedSite"
+      [eventsList]="eventsList"
+      [actionsList]="actionsList"
       (onClose)="closeModal($event)"
-      (onApplyChanges)="applyChanges($event)">
+      (onApplyChanges)="applyChanges($event)"
+      (onDeleteAction)="deleteAction($event)">
     </app-modal>
   </div>
 </div>

@@ -14,14 +14,30 @@ export class SitesService {
     'Content-Type':  'application/json'
   });
 
-  attachEvents(uuid: string, actionsList: string[]) {
+  deleteEvents(uuid: string, eventList) {
+    const url = `${API.serverUrl}${API.events}${API.deleteAttach}`;
 
+    const body = {
+      "siteUuid": uuid,
+      "events": eventList || []
+    };
+
+    const bodyParams = {
+      mode: 'cors',
+      headers: this.headers,
+      body: body
+    };
+
+    return this._http.delete(url, bodyParams);
+  }
+
+  attachEvents(uuid: string, eventList) {
     const url = `${API.serverUrl}${API.events}${API.attach}`; 
 
     const bodyParams = {
       "site": {
         "uuid": uuid,
-        "events": actionsList || []
+        "events": eventList || []
       }
     }
     return this._http.post(url, bodyParams);
@@ -42,14 +58,11 @@ export class SitesService {
   }
 
   removeSite(uuid: number) {
-    const url = `${API.serverUrl}${API.sites}`;
+    const url = `${API.serverUrl}${API.sites}/${uuid}`;
 
     const bodyParams = {
       mode: 'cors',
       headers: this.headers,
-      body: {
-        uuid: uuid
-      }
     };
 
     return this._http.delete(url, bodyParams);
@@ -67,14 +80,14 @@ export class SitesService {
     return this._http.post(url, bodyParams);
   }
 
-  editSite(newSite, uuid) {
+  editSite(uuid, newSite) {
     const url = `${API.serverUrl}${API.sites}${API.edit}`;
 
     const bodyParams = {
       method: 'PUT',
       mode: 'cors',
       headers: this.headers,
-      newSite: newSite,
+      address: newSite,
       uuid: uuid  
     };
 

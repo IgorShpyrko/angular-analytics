@@ -1,4 +1,4 @@
-<div class="modal-wrapper" (click)="close($event)">
+<div class="modal-wrapper" (click)="clickOnWrapper($event)">
   <div class="modal-container">
     <h3>Change site params</h3>
     <form [formGroup]="profileForm" (ngSubmit)="applyChanges()">
@@ -7,26 +7,26 @@
         <span>Site address</span>
         <input 
           type="text"
-          (input)="change($event.target.value)"
           formControlName="address">
 
         <ul>
-          <li *ngFor="let event of submittedEventList">
+          <li *ngFor="let event of eventsList">
             <span>{{event}}</span>
-            <span (click)="deleteAction($event)">&#x2715;</span>
+            <span (click)="deleteEvent($event)">&#x2715;</span>
           </li>
         </ul>
       </div>
 
       <div>
         <span>Add new events</span>
-        <select name="" id="" (change)="selectNewEvent($event)">
+        <select name="" id="" (change)="addNewEvent($event)">
           <option disabled >select event</option>
           <option *ngFor="let action of actionsList" value={{action}}>{{action}}</option>
         </select>
       </div>
 
-      <button type="submit">Apply changes</button>
+      <button type="submit" [disabled]="!profileForm.valid">Apply changes</button>
+      <button (click)="close($event)">Cancel</button>
 
     </form>
   </div>

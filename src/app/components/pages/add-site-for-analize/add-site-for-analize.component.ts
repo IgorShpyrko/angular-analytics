@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { pathRegexp } from '../../../constants/regExps';
 import { SitesService } from '../../../services/sites/sites.service'
 import { ActionsService } from 'src/app/services/actions/actions.service';
+import { callbackify } from 'util';
 
 @Component({
   selector: 'app-add-site-for-analize',
@@ -17,9 +18,9 @@ export class AddSiteForAnalizeComponent implements OnInit {
     private _actionsService: ActionsService
   ) { }
 
-  sites: string[] = [];
-  checkedSite: number;
-  eventList:string[] = [];
+  sites: any[] = [];
+  checkedSite: {};
+  eventsList:string[] = [];
   actionsList:string[];
 
   profileForm = this.fb.group({
@@ -33,92 +34,205 @@ export class AddSiteForAnalizeComponent implements OnInit {
   });
 
   ngOnInit() {
-    this._sitesService.getAllSites()
-      .subscribe(
-        (sites: {site: []}) => {
-          this.sites = sites.site
-        },
-        error => {
-          console.log(error)
-        }
-      );
+    this.getAllSites();
+    this.getActions();
+  };
 
-      this._actionsService.getActionsList()
-      .subscribe((data: string[]) => {
-        console.log(data)
-        this.actionsList = data
+  getActions() {
+    this._actionsService.getActionsList()
+    .subscribe((data: string[]) => {
+      this.actionsList = data
+    },
+    error => {
+      console.log(error)
+    })
+  };
+
+  getAllSites() {
+    this._sitesService.getAllSites()
+    .subscribe(
+      (sites: {site: []}) => {
+        this.sites = sites.site
       },
       error => {
         console.log(error)
-      })
+      }
+    );
   };
 
-  onSelectNewEvent(e) {
-    const { value } = e.target
-    
-    if (!this.eventList.find(event => event === value)) {
-      this.eventList.push(value)
-    };
+  getSubmitedActionsList(uuid, callback = null) {
+    this._actionsService.getSubmitedActionsList(uuid)
+    .subscribe((data: {events: string[]}) => {
+      this.eventsList = data.events;
 
-    e.target.value = 'default'
+      if(callback) {
+        callback()
+      };
+    },
+    error => {
+      console.log(error)
+    });
   };
 
-  applyChanges(changes) {
+  attachEvents(uuid, eventsList, callback = null) {
+    this._sitesService.attachEvents(uuid, eventsList)
+      .subscribe((data): void => {
+        console.log(data)
+        if (callback) {
+          callback()
+        }
+      },
+      error => {
+        console.log(error)
+      });
+  };
 
-    // TODO: add change site name
-
-
-  }
-
-  closeModal(params: boolean) {
-    if (params) {
-      this.checkedSite = -1
-    }
-  }
-
-  openModal(e, idx) {
-    if (!e) {
-      this.checkedSite = -1;
-      return;
-    }
-    this.checkedSite = idx.toString();
-  }
-
-  onDeleteClick(site) {
-    if (!site) return
-    this._sitesService.removeSite(site.uuid)
+  deleteEvents(uuid, eventsList, callback = null) {
+    this._sitesService.deleteEvents(uuid, eventsList)
       .subscribe(
         data => {
-          this.sites = this.sites.filter( (item: any) => item.uuid !== site.uuid )
+          console.log(data)
+          if (callback) {
+            callback()
+          }
         },
         error => {
           console.log(error)
         }
       )
-  }
+  };
+
+  editSite(uuid, address, callback = null) {
+    this._sitesService.editSite(uuid, address)
+    .subscribe( () => {
+        if (callback) {
+          callback()
+        }
+      },
+      error => {
+        console.log(error)
+      }
+    );
+  };
+
+  deleteSite(uuid, callback = null) {
+    this._sitesService.removeSite(uuid)
+      .subscribe(
+        () => {
+          if (callback) {
+            callback()
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      );
+  };
+
+  clearForm() {
+    this.profileForm.controls.name.setValue('');
+    this.eventsList = [];
+  };
+
+  onSelectNewEvent(e) {
+    const { value } = e.target
+    
+    if (!this.eventsList.find(event => event === value)) {
+      this.eventsList.push(value)
+    };
+
+    e.target.value = 'default'
+  };
+
+  deleteAction(params) {
+    this.eventsList.filter(event => event !== params.deleted)
+    this.attachEvents(params.uuid, this.eventsList)
+  };
+
+  applyChanges(changes) {
+    let isChangedAddress = false;
+    let isAddedActionsList = false;
+    let isDeletedActionsList = false;
+
+    let newEvents = changes.eventsList.filter(event => {
+      if (!this.actionsList.includes(event)) {
+        return event
+      }
+    });
+
+    console.log('this.actionsList :', this.eventsList);
+    let deletedEvents = this.eventsList.filter(event => {
+      if (!changes.eventsList.includes(event)) {
+        return event
+      }
+    });
+
+    console.log('newEvents', newEvents);
+    console.log('deletedEvents :', deletedEvents);
+
+    this.editSite(changes.uuid, changes.address, () => {
+      isChangedAddress = true;
+      this.getAllSites();
+      this.closeModal(isAddedActionsList && isDeletedActionsList);
+    });
+
+    if (newEvents.length !== 0) {
+      this.attachEvents(changes.uuid, newEvents, () => {
+        isAddedActionsList = true;
+        this.closeModal(isAddedActionsList && isDeletedActionsList);
+      });
+    } else {
+      isAddedActionsList = true;
+      this.closeModal(isAddedActionsList && isDeletedActionsList);
+    }
+
+    if (deletedEvents.length !== 0) {
+      this.deleteEvents(changes.uuid, deletedEvents, () => {
+        isDeletedActionsList = true;
+        this.closeModal(isAddedActionsList && isChangedAddress);
+      });
+    } else {
+      isDeletedActionsList = true;
+      this.closeModal(isAddedActionsList && isChangedAddress);
+    }
+  };
+
+  closeModal(params: boolean) {
+    if (params) {
+      this.checkedSite = null
+    };
+  };
+
+  openModal(e, idx) {
+    if (!e) return;
+
+    this.getSubmitedActionsList(this.sites[idx].uuid,() => {
+        this.checkedSite = this.sites[idx]
+      }
+    ) 
+  };
+
+  onDeleteClick(site) {
+    if (!site) return
+    this.deleteSite(site.uuid, () => {
+      this.sites = this.sites.filter((item: any) => item.uuid !== site.uuid)
+    })
+  };
 
   onAddNewSite() {
     this._sitesService.addSite(this.profileForm.controls.name.value)
       .subscribe((data: {site:any}): void => {
-        this._sitesService.attachEvents(data.site.uuid, this.eventList)
-          .subscribe((data): void => {
-            console.log(data)
-          },
-          error => {
-            console.log(error)
-          });
+        this.attachEvents(data.site.uuid, this.eventsList)
 
         this.sites.push(data.site);
-        this.profileForm.controls.name.setValue('');
-        this.eventList = [];
+        this.clearForm();
         
       }, error => {
         console.log(error)
       })
-  }
+  };
 
   get f() {
     return this.profileForm.controls;
-  };
-
+  }
 }
