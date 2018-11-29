@@ -12,5 +12,6 @@ export const API = {
   edit: '/edit',
   events: '/events',
   get: '/get',
-  attach: '/attach'
+  attach: '/attach',
+  allTypes: '/allTypes'
 }

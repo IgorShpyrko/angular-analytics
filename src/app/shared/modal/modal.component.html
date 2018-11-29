@@ -11,11 +11,19 @@
           formControlName="address">
 
         <ul>
-          <li *ngFor="let event of eventList">
+          <li *ngFor="let event of submittedEventList">
             <span>{{event}}</span>
-            <span (click)="deleteEvent($event)">&#x2715;</span>
+            <span (click)="deleteAction($event)">&#x2715;</span>
           </li>
         </ul>
+      </div>
+
+      <div>
+        <span>Add new events</span>
+        <select name="" id="" (change)="selectNewEvent($event)">
+          <option disabled >select event</option>
+          <option *ngFor="let action of actionsList" value={{action}}>{{action}}</option>
+        </select>
       </div>
 
       <button type="submit">Apply changes</button>

@@ -14,15 +14,14 @@ export class SitesService {
     'Content-Type':  'application/json'
   });
 
-  attachEvents(uuid: string, eventList: string[]) {
-    if (!eventList) return;
+  attachEvents(uuid: string, actionsList: string[]) {
 
     const url = `${API.serverUrl}${API.events}${API.attach}`; 
 
     const bodyParams = {
       "site": {
         "uuid": uuid,
-        "events": eventList
+        "events": actionsList || []
       }
     }
     return this._http.post(url, bodyParams);
@@ -68,14 +67,15 @@ export class SitesService {
     return this._http.post(url, bodyParams);
   }
 
-  editSite(newSite) {
+  editSite(newSite, uuid) {
     const url = `${API.serverUrl}${API.sites}${API.edit}`;
 
     const bodyParams = {
       method: 'PUT',
       mode: 'cors',
       headers: this.headers,
-      newSite: newSite
+      newSite: newSite,
+      uuid: uuid  
     };
 
     return this._http.put(url, bodyParams);

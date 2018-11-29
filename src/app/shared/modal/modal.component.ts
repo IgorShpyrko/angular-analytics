@@ -6,7 +6,8 @@ import { SitesService } from 'src/app/services/sites/sites.service';
 
 interface Changes {
   address: string;
-  eventList: string[];
+  uuid: string;
+  actionsList: string[];
 }
 
 @Component({
@@ -20,11 +21,11 @@ export class ModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _actionsService: ActionsService,
-    private _siteService: SitesService) { }
+    private _sitesService: SitesService) { }
 
   address: string;
   uuid: string;
-  eventList: string[];
+  actionsList: string[];
   submittedEventList: string[];
 
   profileForm = this.fb.group({
@@ -40,26 +41,60 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
     this.address = this.Data.address;
     this.uuid = this.Data.uuid;
-    this.eventList = this._actionsService.getActionsList();
+    this._actionsService.getActionsList()
+      .subscribe((data: string[]) => {
+        console.log(data)
+        this.actionsList = data
+      },
+      error => {
+        console.log(error)
+      })
 
     this._actionsService.getSubmitedActionsList(this.uuid)
-      .subscribe(data => {
+      .subscribe((data: {events: string[]}) => {
         console.log(data)
+        this.submittedEventList = data.events
       },
       error => {
         console.log(error)
       });
   }
 
+  selectNewEvent(e) {
+    
+    console.log(e.target.value)
+
+    let newValue = e.target.value;
+
+    if (!newValue) return;
+
+    if (!this.submittedEventList.includes(newValue)) {
+      this.submittedEventList.push(newValue)
+    }
+
+  }
+
   // @Output() onApplyChanges = new EventEmitter<Changes>();
   applyChanges() {
-    console.log('applying')
 
     // let changes = {
-    //   address: '',
-    //   eventList: []
-    // }
-    // this.onApplyChanges.emit(changes)
+    //   address: this.address,
+    //   uuid: this.uuid,
+    //   actionsList: this.submittedEventList
+    // };
+
+    if (this.submittedEventList.length !== 0) {
+      this._sitesService.attachEvents(this.uuid, this.actionsList)
+      .subscribe(data => {
+        console.log(data)
+        this.onClose.emit(true)
+      },
+      error => {
+        console.log(error)
+      })
+    }
+
+    // this.onApplyChanges.emit(changes);
   }
   
   @Output() onClose = new EventEmitter<boolean>();
@@ -73,11 +108,11 @@ export class ModalComponent implements OnInit {
     console.log(value)
   };
 
-  deleteEvent(e) {
+  deleteAction(e) {
     console.log(e.target.previousSibling.innerText)
     let eventToDelete = e.target.previousSibling.innerText;
-    let newEvents = this.eventList.filter(event => event !== eventToDelete)
-    this._siteService.attachEvents(this.uuid, newEvents)
+    let newActions = this.actionsList.filter(action => action !== eventToDelete)
+    this._sitesService.attachEvents(this.uuid, newActions)
       .subscribe(data => {
         console.log(data)
       })

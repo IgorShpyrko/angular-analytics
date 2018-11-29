@@ -32,12 +32,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
     ])]
   });
 
-  mockEventList = [
-    'click',
-    'input',
-    'hover'
-  ];
-
   ngOnInit() {
     this._sitesService.getAllSites()
       .subscribe(
@@ -49,10 +43,17 @@ export class AddSiteForAnalizeComponent implements OnInit {
         }
       );
 
-    this.actionsList = this._actionsService.getActionsList()
+      this._actionsService.getActionsList()
+      .subscribe((data: string[]) => {
+        console.log(data)
+        this.actionsList = data
+      },
+      error => {
+        console.log(error)
+      })
   };
 
-  onSelectEvent(e) {
+  onSelectNewEvent(e) {
     const { value } = e.target
     
     if (!this.eventList.find(event => event === value)) {
@@ -63,7 +64,10 @@ export class AddSiteForAnalizeComponent implements OnInit {
   };
 
   applyChanges(changes) {
-    console.log(changes)
+
+    // TODO: add change site name
+
+
   }
 
   closeModal(params: boolean) {

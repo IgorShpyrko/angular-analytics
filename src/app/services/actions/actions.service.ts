@@ -19,12 +19,6 @@ export class ActionsService {
     headers: this.headers
   };
 
-  private mockActionsList: string[] = [
-    'click',
-    'input',
-    'hover'
-  ]
-
   getActions(siteUUID, event) {
     if (!this.token) return;
 
@@ -34,27 +28,14 @@ export class ActionsService {
   };
 
   getSubmitedActionsList(uuid) {
-    const url = `${API.serverUrl}${API.events}${API.attach}`;
+    const url = `${API.serverUrl}${API.events}${API.attach}/${uuid}`;
 
-    return this._http.get(url, {...this.bodyParams, params: { uuid } });
+    return this._http.get(url);
   };
 
-  // get all possible actions from server 
   getActionsList() {
+    const url = `${API.serverUrl}${API.events}${API.allTypes}`;
 
-    // TODO: change url to correct
-    const url = `${API.serverUrl}${API.events}${API.attach}`;
-
-    this._http.get(url)
-    .subscribe(data => {
-      console.log(data)
-    },
-    error => {
-      console.log(error)
-    })
-    
-    // TODO: delete mocks
-      return this.mockActionsList
+    return this._http.get(url)
   }
-
 };
