@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { ActionsService } from 'src/app/services/actions/actions.service';
+import { MzToastService } from 'ngx-materialize';
 
 @Component({
   selector: 'app-analize',
@@ -10,12 +11,14 @@ import { ActionsService } from 'src/app/services/actions/actions.service';
 export class AnalizeComponent implements OnInit {
   constructor(
     private _sitesService: SitesService,
-    private _actionsService: ActionsService) { }
+    private _actionsService: ActionsService,
+    private _toastService: MzToastService) { }
 
   sites: [];
   selectedEvent:string = '';
   selectedSiteUUID: string = '';
   fetchedEvents: any[] = [];
+  fetchedUserActions: any[];
 
   ngOnInit() {
     this.getAllSites()
@@ -28,27 +31,40 @@ export class AnalizeComponent implements OnInit {
     });
   };
 
-  getEvents() {
+  getActions() {
     this._actionsService.getSiteActions(this.selectedSiteUUID, this.selectedEvent)
-    .then(data => {
-      this.fetchedEvents = data[0]
-      console.log(this.fetchedEvents)
+    .then((data: {allEvents: any}) => {
+      console.log(data)
+      this.fetchedUserActions = [];
+
+      for (let key in data.allEvents) {
+        this.fetchedUserActions.push(data.allEvents[key])
+      };
+      console.log(this.fetchedUserActions)
     })
   }
 
   onSelectSite(e) {
     this.selectedSiteUUID = e.target.value;
+    this._actionsService.getSubmitedActionsList(this.selectedSiteUUID)
+      .then( ( data: { events: string[] } ) => {
+        this.fetchedEvents = data.events
+      })
 
     if ((this.selectedEvent !== '') && (this.selectedSiteUUID !== '')) {
-      this.getEvents();
+      this.getActions();
     }
   }
 
   onSelectEvent(e) {
     this.selectedEvent = e.target.value;
 
+    if (this.selectedSiteUUID === '') {
+      this._toastService.show('must choose site', 4000, 'red')
+    }
+
     if ((this.selectedEvent !== '') && (this.selectedSiteUUID !== '')) {
-      this.getEvents();
+      this.getActions();
     }
   }
 

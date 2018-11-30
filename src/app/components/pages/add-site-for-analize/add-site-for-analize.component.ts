@@ -18,7 +18,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
     private _sitesService: SitesService,
     private _actionsService: ActionsService,
     private _commonService: CommonService,
-    public toastService: MzToastService
+    private _toastService: MzToastService
   ) { }
 
   sites: any[] = [];
@@ -126,7 +126,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
   };
 
   showToast(message) {
-    this.toastService.show(message, 4000, 'red', () => {});
+    this._toastService.show(message, 4000, 'red', () => {});
   }
 
   onAddNewSite() {
@@ -137,9 +137,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
         this.clearForm();
       })
       .catch(err => {
-        if (err.error.error === 'this site already exists') {
-          this.showToast('this site already exists');
-        }
+        this.showToast(err.error.error);
       })  
   };
 

@@ -17,23 +17,27 @@
         <select name="site-select" id="" (change)='onSelectEvent($event)'>
           <option disabled value="select site">select event</option>
           <option value="all">all events</option>
-          <option *ngFor='let event of mockEventList' value={{event}}>{{event}}</option>
+          <option *ngFor='let event of fetchedEvents' value={{event}}>{{event}}</option>
         </select>
       </div>
     </div>
   </div>
 
-  <table>
+  <table *ngIf="fetchedUserActions">
+    <caption>asd</caption>
+    <caption>qwe</caption>
     <thead>
       <tr>
-        <th>event header</th>
-        <th>id header</th>
+        <th>time</th>
+        <th>innerText</th>
+        <th>localName</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>frist event name</td>
-        <td>frist event name</td>
+      <tr *ngFor="let action of fetchedUserActions">
+        <td>{{action.time}}</td>
+        <td>{{action.innerText}}</td>
+        <td>{{action.localName}}</td>
       </tr>
     </tbody>
   </table>
