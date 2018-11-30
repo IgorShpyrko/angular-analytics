@@ -4,6 +4,7 @@ import { pathRegexp } from '../../../constants/regExps';
 import { SitesService } from '../../../services/sites/sites.service'
 import { ActionsService } from 'src/app/services/actions/actions.service';
 import { CommonService } from 'src/app/services/common/common.service';
+import { MzToastService } from 'ngx-materialize';
 
 @Component({
   selector: 'app-add-site-for-analize',
@@ -16,7 +17,8 @@ export class AddSiteForAnalizeComponent implements OnInit {
     private fb: FormBuilder,
     private _sitesService: SitesService,
     private _actionsService: ActionsService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    public toastService: MzToastService
   ) { }
 
   sites: any[] = [];
@@ -123,6 +125,10 @@ export class AddSiteForAnalizeComponent implements OnInit {
       })
   };
 
+  showToast(message) {
+    this.toastService.show(message, 4000, 'red', () => {});
+  }
+
   onAddNewSite() {
     this._sitesService.addSite(this.profileForm.controls.name.value)
       .then((data: {site:any}): void => {
@@ -132,9 +138,9 @@ export class AddSiteForAnalizeComponent implements OnInit {
       })
       .catch(err => {
         if (err.error.error === 'this site already exists') {
-          alert('warning')
+          this.showToast('this site already exists');
         }
-      })
+      })  
   };
 
   get f() {

@@ -22,33 +22,25 @@ export class AnalizeComponent implements OnInit {
   }
 
   getAllSites() {
-    this._sitesService.getAllSites((sites: {site: []}) => {
+    this._sitesService.getAllSites()
+    .then ((sites: {site: []}) => {
       this.sites = sites.site
     });
   };
 
-  getEvents(uuid, event, callback = null) {
-    this._actionsService.getActions(uuid, event)
-       .subscribe(data => {
-         console.log(data)
-         
-         if(callback) {
-           callback(data)
-         }
-       },
-       error => {
-         console.log(error)
-       })
+  getEvents() {
+    this._actionsService.getSiteActions(this.selectedSiteUUID, this.selectedEvent)
+    .then(data => {
+      this.fetchedEvents = data[0]
+      console.log(this.fetchedEvents)
+    })
   }
 
   onSelectSite(e) {
     this.selectedSiteUUID = e.target.value;
 
     if ((this.selectedEvent !== '') && (this.selectedSiteUUID !== '')) {
-      this.getEvents(this.selectedSiteUUID, this.selectedEvent, data => {
-        this.fetchedEvents = data[0]
-        console.log(this.fetchedEvents)
-      })
+      this.getEvents();
     }
   }
 
@@ -56,7 +48,7 @@ export class AnalizeComponent implements OnInit {
     this.selectedEvent = e.target.value;
 
     if ((this.selectedEvent !== '') && (this.selectedSiteUUID !== '')) {
-      this.getEvents(this.selectedSiteUUID, this.selectedEvent)
+      this.getEvents();
     }
   }
 

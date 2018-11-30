@@ -1,7 +1,7 @@
 import { Directive, OnInit, ElementRef, HostListener } from '@angular/core';
 
 const initialValue = {
-  backgroundColor: 'rgba(50, 50, 50, 0.7)',
+  background: 'rgba(50, 50, 50, 0.7)',
   color: '#FFF',
   border: 'none',
   margin: '2px',
@@ -13,12 +13,12 @@ const initialValue = {
 
 const hoveredValue = {
   color: '#FFF',
-  backgroundColor: 'rgba(50, 50, 50, 0.9)'
+  background: 'rgba(50, 50, 50, 0.9)'
 }
 
 const activeValue = {
   color: '#FFF',
-  backgroundColor: 'rgba(30, 30, 30, 0.9)'
+  background: 'rgba(30, 30, 30, 0.9)'
 }
 
 @Directive({
