@@ -19,52 +19,39 @@ export class ActionsService {
     headers: this.headers
   };
 
-  getSiteActions(siteUUID, event, callback = null) {
+  async getSiteActions(siteUUID, event) {
     if (!this.token) return;
 
     const url = `${API.serverUrl}${API.events}/${event}/${siteUUID}`;
 
-    this._http.get(url, this.bodyParams)
-      .subscribe(
-        data => {
-          console.log(data)
-          if (callback) {
-            callback()
-          }
-        },
-        error => {
-          console.log(error)
-        }
-      )
+    try {
+      return this._http.get(url, this.bodyParams).toPromise();
+    }
+    catch (err) {
+      console.log(err);
+    }
   };
 
-  getAllActionsList(callback = null) {
+  async getAllActionsList() {
     const url = `${API.serverUrl}${API.events}${API.allTypes}`;
 
-    this._http.get(url)
-      .subscribe(
-        data => {
-          if (callback) {
-            callback(data)
-          }
-        },
-      error => {
-        console.log(error)
-      })
+    try {
+      return this._http.get(url).toPromise();
+    }
+    catch (err) {
+      console.log(err);
+    }
   };
 
-  getSubmitedActionsList(uuid, callback = null) {
+  async getSubmitedActionsList(uuid) {
     const url = `${API.serverUrl}${API.events}${API.attach}/${uuid}`;
 
-    this._http.get(url)
-      .subscribe(data => {
-        if(callback) {
-          callback(data)
-        };
-      },
-      error => {
-        console.log(error)
-      });
+    try {
+      return this._http.get(url).toPromise();
+    }
+    catch (err) {
+      console.log(err);
+    }
   };
 
-};
+}
