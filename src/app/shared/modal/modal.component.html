@@ -10,7 +10,7 @@
           formControlName="address">
 
         <ul>
-          <li *ngFor="let event of eventsList">
+          <li *ngFor="let event of changedEventsList">
             <span>{{event}}</span>
             <span (click)="deleteEvent($event)">&#x2715;</span>
           </li>

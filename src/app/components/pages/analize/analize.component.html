@@ -8,7 +8,7 @@
         <h4>Site</h4>
         <select name="site-select" id="" (change)='onSelectSite($event)'>
           <option disabled value="select site">select site</option>
-          <option *ngFor='let site of siteList' value={{site.uuid}}>{{site.address}}</option>
+          <option *ngFor='let site of sites' value={{site.uuid}}>{{site.address}}</option>
         </select>
       </div>
   

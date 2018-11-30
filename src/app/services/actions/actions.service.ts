@@ -19,23 +19,52 @@ export class ActionsService {
     headers: this.headers
   };
 
-  getActions(siteUUID, event) {
+  getSiteActions(siteUUID, event, callback = null) {
     if (!this.token) return;
 
     const url = `${API.serverUrl}${API.events}/${event}/${siteUUID}`;
 
-    return this._http.get(url, this.bodyParams);
+    this._http.get(url, this.bodyParams)
+      .subscribe(
+        data => {
+          console.log(data)
+          if (callback) {
+            callback()
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   };
 
-  getSubmitedActionsList(uuid) {
-    const url = `${API.serverUrl}${API.events}${API.attach}/${uuid}`;
-
-    return this._http.get(url);
-  };
-
-  getActionsList() {
+  getAllActionsList(callback = null) {
     const url = `${API.serverUrl}${API.events}${API.allTypes}`;
 
-    return this._http.get(url)
-  }
+    this._http.get(url)
+      .subscribe(
+        data => {
+          if (callback) {
+            callback(data)
+          }
+        },
+      error => {
+        console.log(error)
+      })
+  };
+
+  getSubmitedActionsList(uuid, callback = null) {
+    const url = `${API.serverUrl}${API.events}${API.attach}/${uuid}`;
+
+    this._http.get(url)
+      .subscribe(data => {
+        if(callback) {
+          callback(data)
+        };
+      },
+      error => {
+        console.log(error)
+      });
+  };
+
 };

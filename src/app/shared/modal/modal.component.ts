@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 interface Changes {
   address: string;
   uuid: string;
-  eventsList: string[];
+  changedEventsList: string[];
 }
 
 @Component({
@@ -16,11 +16,9 @@ interface Changes {
 export class ModalComponent implements OnInit {
 
   @Input() site: any;
-  @Input() eventsList: any;
+  @Input() changedEventsList: any;
   @Input() actionsList: any;
-  constructor(private fb: FormBuilder) {
-    console.log(this)
-  }
+  constructor(private fb: FormBuilder) { }
 
   profileForm = this.fb.group({
     address:[
@@ -41,8 +39,8 @@ export class ModalComponent implements OnInit {
   addNewEvent(e) {
     let newValue = e.target.value;
 
-    if (!this.eventsList.includes(newValue)) {
-      this.eventsList.push(newValue)
+    if (!this.changedEventsList.includes(newValue)) {
+      this.changedEventsList.push(newValue)
     }
   }
 
@@ -52,7 +50,7 @@ export class ModalComponent implements OnInit {
     const changes: Changes = {
       address: this.profileForm.controls.address.value,
       uuid: this.site.uuid,
-      eventsList: this.eventsList || []
+      changedEventsList: this.changedEventsList || []
     };
 
     this.onApplyChanges.emit(changes);
@@ -70,7 +68,7 @@ export class ModalComponent implements OnInit {
   }
 
   deleteEvent(e) {
-    this.eventsList = this.eventsList.filter(event => event !== e.target.previousSibling.innerText)
+    this.changedEventsList = this.changedEventsList.filter(event => event !== e.target.previousSibling.innerText)
   }
 
   get f() {

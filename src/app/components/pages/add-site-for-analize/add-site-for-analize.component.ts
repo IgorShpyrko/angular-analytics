@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { pathRegexp } from '../../../constants/regExps';
 import { SitesService } from '../../../services/sites/sites.service'
 import { ActionsService } from 'src/app/services/actions/actions.service';
-import { callbackify } from 'util';
+import { CommonService } from 'src/app/services/common/common.service';
 
 @Component({
   selector: 'app-add-site-for-analize',
@@ -15,12 +15,14 @@ export class AddSiteForAnalizeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _sitesService: SitesService,
-    private _actionsService: ActionsService
+    private _actionsService: ActionsService,
+    private _commonService: CommonService
   ) { }
 
   sites: any[] = [];
   checkedSite: {};
-  eventsList:string[] = [];
+  changedEventsList:string[] = [];
+  fetchedEventsList:string[] = [];
   actionsList:string[];
 
   profileForm = this.fb.group({
@@ -35,118 +37,40 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   ngOnInit() {
     this.getAllSites();
-    this.getActions();
-  };
-
-  getActions() {
-    this._actionsService.getActionsList()
-    .subscribe((data: string[]) => {
-      this.actionsList = data
-    },
-    error => {
-      console.log(error)
-    })
+    this.getAllActionsList();
   };
 
   getAllSites() {
-    this._sitesService.getAllSites()
-    .subscribe(
-      (sites: {site: []}) => {
-        this.sites = sites.site
-      },
-      error => {
-        console.log(error)
-      }
-    );
-  };
-
-  getSubmitedActionsList(uuid, callback = null) {
-    this._actionsService.getSubmitedActionsList(uuid)
-    .subscribe((data: {events: string[]}) => {
-      this.eventsList = data.events;
-
-      if(callback) {
-        callback()
-      };
-    },
-    error => {
-      console.log(error)
+    this._sitesService.getAllSites((sites: {site: []}) => {
+      this.sites = sites.site
     });
   };
 
-  attachEvents(uuid, eventsList, callback = null) {
-    this._sitesService.attachEvents(uuid, eventsList)
-      .subscribe((data): void => {
-        console.log(data)
-        if (callback) {
-          callback()
-        }
-      },
-      error => {
-        console.log(error)
-      });
-  };
-
-  deleteEvents(uuid, eventsList, callback = null) {
-    this._sitesService.deleteEvents(uuid, eventsList)
-      .subscribe(
-        data => {
-          console.log(data)
-          if (callback) {
-            callback()
-          }
-        },
-        error => {
-          console.log(error)
-        }
-      )
-  };
-
-  editSite(uuid, address, callback = null) {
-    this._sitesService.editSite(uuid, address)
-    .subscribe( () => {
-        if (callback) {
-          callback()
-        }
-      },
-      error => {
-        console.log(error)
-      }
-    );
-  };
-
-  deleteSite(uuid, callback = null) {
-    this._sitesService.removeSite(uuid)
-      .subscribe(
-        () => {
-          if (callback) {
-            callback()
-          }
-        },
-        error => {
-          console.log(error)
-        }
-      );
+  getAllActionsList() {
+    this._actionsService.getAllActionsList((data: string[]) => {
+      this.actionsList = data
+    });
   };
 
   clearForm() {
     this.profileForm.controls.name.setValue('');
-    this.eventsList = [];
+    this.changedEventsList = [];
+    this.fetchedEventsList = [];
   };
 
   onSelectNewEvent(e) {
     const { value } = e.target
     
-    if (!this.eventsList.find(event => event === value)) {
-      this.eventsList.push(value)
+    if (!this.changedEventsList.find(event => event === value)) {
+      this.changedEventsList.push(value)
     };
 
     e.target.value = 'default'
   };
 
   deleteAction(params) {
-    this.eventsList.filter(event => event !== params.deleted)
-    this.attachEvents(params.uuid, this.eventsList)
+    this.changedEventsList.filter(event => event !== params.deleted)
+    this._sitesService.attachEvents(params.uuid, this.changedEventsList)
   };
 
   applyChanges(changes) {
@@ -154,30 +78,33 @@ export class AddSiteForAnalizeComponent implements OnInit {
     let isAddedActionsList = false;
     let isDeletedActionsList = false;
 
-    let newEvents = changes.eventsList.filter(event => {
-      if (!this.actionsList.includes(event)) {
+    console.log('changedEventsList :', changes.changedEventsList);
+    console.log('this.fetchedEventsList :', this.fetchedEventsList);
+
+    let newEvents = changes.changedEventsList.filter(event => {
+      if (!this.fetchedEventsList.includes(event)) {
         return event
       }
     });
 
-    console.log('this.actionsList :', this.eventsList);
-    let deletedEvents = this.eventsList.filter(event => {
-      if (!changes.eventsList.includes(event)) {
+    let deletedEvents = this.fetchedEventsList.filter(event => {
+      if (!changes.changedEventsList.includes(event)) {
         return event
       }
     });
 
-    console.log('newEvents', newEvents);
+    console.log('changes :', changes);
+    console.log('newEvents :', newEvents);
     console.log('deletedEvents :', deletedEvents);
 
-    this.editSite(changes.uuid, changes.address, () => {
+    this._sitesService.editSite(changes.uuid, changes.address, () => {
       isChangedAddress = true;
       this.getAllSites();
       this.closeModal(isAddedActionsList && isDeletedActionsList);
     });
 
     if (newEvents.length !== 0) {
-      this.attachEvents(changes.uuid, newEvents, () => {
+      this._sitesService.attachEvents(changes.uuid, newEvents, () => {
         isAddedActionsList = true;
         this.closeModal(isAddedActionsList && isDeletedActionsList);
       });
@@ -187,7 +114,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
     }
 
     if (deletedEvents.length !== 0) {
-      this.deleteEvents(changes.uuid, deletedEvents, () => {
+      this._sitesService.deleteEvents(changes.uuid, deletedEvents, () => {
         isDeletedActionsList = true;
         this.closeModal(isAddedActionsList && isChangedAddress);
       });
@@ -200,36 +127,38 @@ export class AddSiteForAnalizeComponent implements OnInit {
   closeModal(params: boolean) {
     if (params) {
       this.checkedSite = null
+      this.clearForm()
     };
   };
 
   openModal(e, idx) {
     if (!e) return;
 
-    this.getSubmitedActionsList(this.sites[idx].uuid,() => {
-        this.checkedSite = this.sites[idx]
+    this._actionsService.getSubmitedActionsList(
+      this.sites[idx].uuid,
+      (data: {events: string[]}) => {
+        this.checkedSite = this.sites[idx];
+        this.fetchedEventsList = this._commonService.recursiveDeepCopy(data.events);
+        this.changedEventsList = this._commonService.recursiveDeepCopy(data.events);
       }
     ) 
   };
 
   onDeleteClick(site) {
     if (!site) return
-    this.deleteSite(site.uuid, () => {
+    this._sitesService.removeSite(site.uuid, () => {
       this.sites = this.sites.filter((item: any) => item.uuid !== site.uuid)
     })
   };
 
   onAddNewSite() {
-    this._sitesService.addSite(this.profileForm.controls.name.value)
-      .subscribe((data: {site:any}): void => {
-        this.attachEvents(data.site.uuid, this.eventsList)
-
+    this._sitesService.addSite(
+      this.profileForm.controls.name.value,
+      (data: {site:any}): void => {
+        this._sitesService.attachEvents(data.site.uuid, this.changedEventsList);
         this.sites.push(data.site);
         this.clearForm();
-        
-      }, error => {
-        console.log(error)
-      })
+      });
   };
 
   get f() {

@@ -14,7 +14,7 @@ export class SitesService {
     'Content-Type':  'application/json'
   });
 
-  deleteEvents(uuid: string, eventList) {
+  deleteEvents(uuid: string, eventList, callback = null) {
     const url = `${API.serverUrl}${API.events}${API.deleteAttach}`;
 
     const body = {
@@ -28,10 +28,20 @@ export class SitesService {
       body: body
     };
 
-    return this._http.delete(url, bodyParams);
+    this._http.delete(url, bodyParams)
+      .subscribe(
+        data => {
+          if (callback) {
+            callback(data)
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
-  attachEvents(uuid: string, eventList) {
+  attachEvents(uuid: string, eventList, callback = null) {
     const url = `${API.serverUrl}${API.events}${API.attach}`; 
 
     const bodyParams = {
@@ -39,12 +49,22 @@ export class SitesService {
         "uuid": uuid,
         "events": eventList || []
       }
-    }
-    return this._http.post(url, bodyParams);
+    };
+
+    this._http.post(url, bodyParams)
+      .subscribe(
+        data => {
+          if (callback) {
+            callback(data)
+          }
+        },
+        error => {
+          console.log(error)
+        });
 
   }
 
-  getAllSites() {
+  getAllSites(callback = null) {
     if (!this.token) return
 
     const url = `${API.serverUrl}${API.sites}`;
@@ -54,10 +74,19 @@ export class SitesService {
       headers: this.headers
     };
 
-    return this._http.get(url, bodyParams);
+    this._http.get(url, bodyParams)
+      .subscribe(data => {
+        if (callback) {
+          callback(data)
+        }
+      },
+        error => {
+          console.log(error)
+        }
+      );
   }
 
-  removeSite(uuid: number) {
+  removeSite(uuid: number, callback = null) {
     const url = `${API.serverUrl}${API.sites}/${uuid}`;
 
     const bodyParams = {
@@ -65,10 +94,20 @@ export class SitesService {
       headers: this.headers,
     };
 
-    return this._http.delete(url, bodyParams);
+    this._http.delete(url, bodyParams)
+      .subscribe(
+        data => {
+          if (callback) {
+            callback(data)
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      );
   }
 
-  addSite(site: string) {
+  addSite(site: string, callback = null) {
     const url = `${API.serverUrl}${API.sites}${API.add}`;
 
     const bodyParams = {
@@ -77,10 +116,20 @@ export class SitesService {
       site: site
     };
 
-    return this._http.post(url, bodyParams);
+    this._http.post(url, bodyParams)
+      .subscribe(
+        data => {
+          if (callback) {
+            callback(data)
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
-  editSite(uuid, newSite) {
+  editSite(uuid, newSite, callback = null) {
     const url = `${API.serverUrl}${API.sites}${API.edit}`;
 
     const bodyParams = {
@@ -91,6 +140,16 @@ export class SitesService {
       uuid: uuid  
     };
 
-    return this._http.put(url, bodyParams);
+    this._http.put(url, bodyParams)
+      .subscribe(
+        data => {
+          if (callback) {
+            callback(data)
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 }
