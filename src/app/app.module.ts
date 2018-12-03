@@ -21,7 +21,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PassHelpDirective } from './directives/pass-help/pass-help.directive';
 import { BtnDirectiveDirective } from './directives/btn-directive/btn-directive.directive';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { SharedModule } from './shared/shared.module';
+import { TableComponent } from './components/pages/analize/table/table/table.component';
+import { ActionPartComponent } from './components/pages/analize/table/action-part/action-part.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { SharedModule } from './shared/shared.module';
     AuthFormDisplayDirective,
     FormItemDirective,
     PassHelpDirective,
-    BtnDirectiveDirective
+    BtnDirectiveDirective,
+    TableComponent,
+    ActionPartComponent
   ],
   imports: [
     BrowserModule,
@@ -50,11 +55,8 @@ import { SharedModule } from './shared/shared.module';
     MzToastModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

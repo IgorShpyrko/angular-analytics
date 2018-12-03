@@ -17,8 +17,8 @@ export class AnalizeComponent implements OnInit {
   sites: [];
   selectedEvent:string = '';
   selectedSiteUUID: string = '';
-  fetchedEvents: any[] = [];
-  fetchedUserActions: any[];
+  fetchedEvents: any;
+  fetchedUserActions: any;
 
   ngOnInit() {
     this.getAllSites()
@@ -33,14 +33,8 @@ export class AnalizeComponent implements OnInit {
 
   getActions() {
     this._actionsService.getSiteActions(this.selectedSiteUUID, this.selectedEvent)
-    .then((data: {allEvents: any}) => {
-      console.log(data)
-      this.fetchedUserActions = [];
-
-      for (let key in data.allEvents) {
-        this.fetchedUserActions.push(data.allEvents[key])
-      };
-      console.log(this.fetchedUserActions)
+    .then((data: any) => {
+      this.fetchedUserActions = data;
     })
   }
 

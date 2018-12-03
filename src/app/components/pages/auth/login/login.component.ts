@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../../../../services/login/login.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { TokenService } from '../../../../services/token/token.service';
 import { emailRegex } from '../../../../constants/regExps';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
-    private _loginService: LoginService,
+    private _authService: AuthService,
     private _tokenService: TokenService,
     private _router: Router) { }
 
@@ -38,11 +38,11 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this._loginService.login(this.profileForm.value)
+    this._authService.login(this.profileForm.value)
       .subscribe(
         (user: {email: string, token: string}): void => {
           this._tokenService.set(user.token);
-          this._loginService.changeIsLoggedIn(true);
+          this._authService.changeIsLoggedIn(true);
           this._router.navigate(['/analize'], {});
           return
         },

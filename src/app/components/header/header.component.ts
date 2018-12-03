@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../services/login/login.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,19 +9,19 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    private _loginService: LoginService,
+    private _authService: AuthService,
     private _router: Router) { };
     
   loggedIn:boolean;
 
   ngOnInit() {
-    this._loginService.isLoggedIn.subscribe((res) => {
+    this._authService.isLoggedIn.subscribe((res) => {
       this.loggedIn = res;
     })
   }
 
   onLogOut() {
-    this._loginService.logout();
+    this._authService.logout();
     this._router.navigate(['/'], {});
   }
 }

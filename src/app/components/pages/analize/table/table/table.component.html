@@ -1,0 +1,13 @@
+<table *ngFor="let item of preparedActionTypes; index as i"> 
+  <caption>{{item}}</caption>
+  <thead>
+    <tr>
+      <th *ngFor="let action of preparedActions[i][0] | keyvalue">{{action.key}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let action of preparedActions[i]; index as j">
+      <td *ngFor="let item of action | keyvalue">{{item.value}}</td>
+    </tr>
+  </tbody>
+</table>

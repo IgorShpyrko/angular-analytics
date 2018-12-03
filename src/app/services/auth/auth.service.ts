@@ -1,24 +1,53 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { API } from '../../constants/api';
 import { throwError } from 'rxjs';
 import { TokenService } from '../token/token.service';
 import { BehaviorSubject } from 'rxjs';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class AuthService {
   constructor(
     private _http: HttpClient,
-    private _tokenService: TokenService
+    private _tokenService: TokenService,
+    private _router: Router
     ) { }
 
   private isLoggedInSource = new BehaviorSubject(!!this._tokenService.get());
   isLoggedIn = this.isLoggedInSource.asObservable();
 
   changeIsLoggedIn(message: boolean) {
-    this.isLoggedInSource.next(message)
+    this.isLoggedInSource.next(message);
+    
+    !message && this._tokenService.remove();
+    !message && this._router.navigate(['/auth/login']);
+  }
+
+  getTokenExpirationDate(token: string) {
+    const decoded = jwt_decode(token);
+
+    if (decoded.exp === undefined) return null;
+
+    return decoded.exp
+  }
+
+  isTokenExpired(): boolean {
+    let token = this._tokenService.get();
+
+    if (!token) {
+      throwError('no token');
+      return
+    }
+
+    const decoded = jwt_decode(token);
+    
+    if (decoded.exp === undefined) return null;
+
+    return (decoded.exp < (Date.now()/1000))
   }
 
   login(user) {
@@ -44,6 +73,7 @@ export class LoginService {
 
   logout() {
     this._tokenService.remove();
-    this.changeIsLoggedIn(false)
+    this.changeIsLoggedIn(false);
+    this._router.navigate(['/']);
   }
 }

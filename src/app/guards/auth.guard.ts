@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginService } from '../services/login/login.service';
+import { AuthService } from '../services/auth/auth.service';
+import { TokenService } from '../services/token/token.service';
 
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private _loginService: LoginService) {
-    (() => { this._loginService.isLoggedIn.subscribe((res: boolean):void => { this.check = res }) })()
-    }
-
-  private check: boolean;
+    private _authService: AuthService,
+    private _tokenService: TokenService) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      if (this.check) {
-        return true
-      } else {
-        this.router.navigate(['/'], {});
+
+      if (!this._tokenService.get()) {
+        this.router.navigate(['/auth/login'], {});
+        this._authService.changeIsLoggedIn(false);
         return false;
+      } else {
+        this._authService.changeIsLoggedIn(!this._authService.isTokenExpired());
+        return !this._authService.isTokenExpired()
       }
+
+
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { RegisterService } from '../../../../services/register/register.service';
 import { TokenService } from '../../../../services/token/token.service';
-import { LoginService } from '../../../../services/login/login.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { emailRegex, passRegex } from '../../../../constants/regExps';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private _registerService: RegisterService,
     private _tokenService: TokenService,
-    private _loginService: LoginService,
+    private _authService: AuthService,
     private _router: Router) { }
     
     profileForm: FormGroup;
@@ -89,7 +89,7 @@ export class RegisterComponent implements OnInit {
       .subscribe((response: {token: string}): void => {
 
         this._tokenService.set(response.token);
-        this._loginService.changeIsLoggedIn(true);
+        this._authService.changeIsLoggedIn(true);
         this._router.navigate(['/'], {});
         this.response = response
       },
