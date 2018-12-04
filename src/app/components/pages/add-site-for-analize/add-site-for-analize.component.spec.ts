@@ -1,5 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { AddSiteForAnalizeComponent } from './add-site-for-analize.component';
 
 describe('AddSiteForAnalizeComponent', () => {
@@ -8,7 +7,7 @@ describe('AddSiteForAnalizeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddSiteForAnalizeComponent ]
+      declarations: [ AddSiteForAnalizeComponent ],
     })
     .compileComponents();
   }));
@@ -19,7 +18,10 @@ describe('AddSiteForAnalizeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', inject(
+    [],
+    () => {
+      expect(component).toBeTruthy();
+    })
+  );
 });

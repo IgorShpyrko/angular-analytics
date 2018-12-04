@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TestAnalytic } from 'test-analytics';
-import { API } from 'src/app/common/constants'
 
 @Component({
   selector: 'app-root',
@@ -23,7 +22,6 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    console.log(API)
     this._testAnalytic.listenDocument(this.list);
   };
 

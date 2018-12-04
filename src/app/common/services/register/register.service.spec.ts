@@ -1,12 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RegisterService } from './register.service';
 
 
 describe('RegisterService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [
+      HttpClientTestingModule
+    ]
+  }));
 
-  it('should be created', () => {
-    const service: RegisterService = TestBed.get(RegisterService);
-    expect(service).toBeTruthy();
-  });
+  it('should be created',inject(
+    [HttpClientTestingModule],
+    () => {
+      const service: RegisterService = TestBed.get(RegisterService);
+      expect(service).toBeTruthy();
+    })
+  );
 });
