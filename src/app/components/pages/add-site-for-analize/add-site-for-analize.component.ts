@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { pathRegexp } from '../../../constants/regExps';
-import { SitesService } from '../../../services/sites/sites.service'
-import { ActionsService } from 'src/app/services/actions/actions.service';
-import { CommonService } from 'src/app/services/common/common.service';
+import { API } from 'src/app/common/constants';
+import { SitesService } from 'src/app/common/services/sites/sites.service'
+import { ActionsService } from 'src/app/common/services/actions/actions.service';
+import { CommonService } from 'src/app/common/services/common/common.service';
 import { MzToastService } from 'ngx-materialize';
 
 @Component({
@@ -23,14 +23,14 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   sites: any[] = [];
   checkedSite: any;
-  changedEventsList:string[] = [];
-  fetchedEventsList:string[] = [];
-  actionsList:string[];
+  changedEventsList: string[] = [];
+  fetchedEventsList: string[] = [];
+  actionsList: string[];
 
   profileForm = this.fb.group({
     name: ['', Validators.compose([
       Validators.required,
-      Validators.pattern(pathRegexp)
+      Validators.pattern(API.regExps.pathRegexp)
     ])],
     choosedEvents: ['default', Validators.compose([
       Validators.required
@@ -60,7 +60,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   onSelectNewEvent(e) {
     const { value } = e.target
-    
+
     if (!this.changedEventsList.find(event => event === value)) {
       this.changedEventsList.push(value)
     };
@@ -74,13 +74,13 @@ export class AddSiteForAnalizeComponent implements OnInit {
   };
 
   applyChanges(changes) {
-    let newEvents = changes.changedEventsList.filter(event => {
+    const newEvents = changes.changedEventsList.filter(event => {
       if (!this.fetchedEventsList.includes(event)) {
         return event
       }
     });
-    
-    let deletedEvents = this.fetchedEventsList.filter(event => {
+
+    const deletedEvents = this.fetchedEventsList.filter(event => {
       if (!changes.changedEventsList.includes(event)) {
         return event
       }
@@ -106,7 +106,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
   };
 
   openModal(e, idx) {
-    if (!e) return;
+    if (!e) { return };
 
     this._actionsService.getSubmitedActionsList(this.sites[idx].uuid)
       .then((data: {events: string[]}) => {
@@ -114,11 +114,11 @@ export class AddSiteForAnalizeComponent implements OnInit {
         this.fetchedEventsList = this._commonService.recursiveDeepCopy(data.events);
         this.changedEventsList = this._commonService.recursiveDeepCopy(data.events);
       }
-    ) 
+    )
   };
 
   onDeleteClick(site) {
-    if (!site) return
+    if (!site) { return }
     this._sitesService.removeSite(site.uuid)
       .then(() => {
         this.sites = this.sites.filter((item: any) => item.uuid !== site.uuid)
@@ -131,14 +131,14 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   onAddNewSite() {
     this._sitesService.addSite(this.profileForm.controls.name.value)
-      .then((data: {site:any}): void => {
+      .then((data: {site: any}): void => {
         this._sitesService.attachEvents(data.site.uuid, this.changedEventsList);
         this.sites.push(data.site);
         this.clearForm();
       })
       .catch(err => {
         this.showToast(err.error.error);
-      })  
+      })
   };
 
   get f() {

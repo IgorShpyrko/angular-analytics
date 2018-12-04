@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { RegisterService } from '../../../../services/register/register.service';
-import { TokenService } from '../../../../services/token/token.service';
-import { AuthService } from '../../../../services/auth/auth.service';
-import { emailRegex, passRegex } from '../../../../constants/regExps';
+import { RegisterService } from 'src/app/common/services/register/register.service';
+import { TokenService } from 'src/app/common/services/token/token.service';
+import { AuthService } from 'src/app/common/services/auth/auth.service';
+import { emailRegex, passRegex } from 'src/app/common/constants/regExps';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,13 +18,13 @@ export class RegisterComponent implements OnInit {
     private _tokenService: TokenService,
     private _authService: AuthService,
     private _router: Router) { }
-    
+
     profileForm: FormGroup;
-    submitClicked:boolean = false;
-    submitted:boolean = false;
+    submitClicked: boolean = false;
+    submitted: boolean = false;
     response;
     passwordFormGroup: FormGroup;
-  
+
   ngOnInit() {
     this.submitClicked = false;
     this.profileForm = this.fb.group({
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(6)
       ])],
       email: ['', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(emailRegex)
       ]]
     });
@@ -49,8 +49,8 @@ export class RegisterComponent implements OnInit {
       },
       {
         validator:  (profileForm: FormGroup) => {
-          let password = profileForm.controls.password.value;
-          let repeatPassword = profileForm.controls.repeatPassword.value;
+          const password = profileForm.controls.password.value;
+          const repeatPassword = profileForm.controls.repeatPassword.value;
   
           if (repeatPassword.length <= 0) {
             return null;
@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
     // TODO: Use EventEmitter with form value
 
-    let newUser = Object.assign(
+    const newUser = Object.assign(
       {},
       this.profileForm.value,
       {password: this.passwordFormGroup.value.password}

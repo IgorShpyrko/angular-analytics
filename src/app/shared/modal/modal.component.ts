@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
-import { pathRegexp } from '../../constants/regExps';
+import { API } from 'src/app/common/constants/';
 import { FormBuilder, Validators } from '@angular/forms';
 
 interface Changes {
@@ -21,15 +21,15 @@ export class ModalComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   profileForm = this.fb.group({
-    address:[
+    address: [
       '',
       Validators.compose([
         Validators.required,
-        Validators.pattern(pathRegexp)
+        Validators.pattern(API.regExps.pathRegexp)
       ])
     ]
   })
-  
+
   ngOnInit() {
     this.profileForm.setValue({
       address: this.site.address
@@ -37,7 +37,7 @@ export class ModalComponent implements OnInit {
   }
 
   addNewEvent(e) {
-    let newValue = e.target.value;
+    const newValue = e.target.value;
 
     if (!this.changedEventsList.includes(newValue)) {
       this.changedEventsList.push(newValue)
@@ -55,7 +55,7 @@ export class ModalComponent implements OnInit {
 
     this.onApplyChanges.emit(changes);
   }
-  
+
   @Output() onClose = new EventEmitter<boolean>();
   close() {
     this.onClose.emit(true)

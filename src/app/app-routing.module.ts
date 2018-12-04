@@ -7,7 +7,7 @@ import { AddSiteForAnalizeComponent } from './components/pages/add-site-for-anal
 import { LoginComponent } from './components/pages/auth/login/login.component';
 import { RegisterComponent } from './components/pages/auth/register/register.component';
 import { ForgotPasswordComponent } from './components/pages/auth/forgot-password/forgot-password.component';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from 'src/app/common/guards/auth.guard';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent, pathMatch: 'full'},

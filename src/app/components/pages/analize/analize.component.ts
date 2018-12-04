@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SitesService } from 'src/app/services/sites/sites.service';
-import { ActionsService } from 'src/app/services/actions/actions.service';
+import { SitesService } from 'src/app/common/services/sites/sites.service';
+import { ActionsService } from 'src/app/common/services/actions/actions.service';
 import { MzToastService } from 'ngx-materialize';
 
 @Component({
@@ -15,8 +15,8 @@ export class AnalizeComponent implements OnInit {
     private _toastService: MzToastService) { }
 
   sites: [];
-  selectedEvent:string = '';
-  selectedSiteUUID: string = '';
+  selectedEvent = '';
+  selectedSiteUUID = '';
   fetchedEvents: any;
   fetchedUserActions: any;
 

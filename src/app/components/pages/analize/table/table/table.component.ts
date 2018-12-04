@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { CommonService } from '../../../../../services/common/common.service';
+import { Component, Input, OnChanges } from '@angular/core';
+import { CommonService } from 'src/app/common/services/common/common.service';
+
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -14,21 +15,17 @@ export class TableComponent implements OnChanges {
   constructor(private _commonService: CommonService) { }
 
   ngOnChanges(changes) {
-    console.log(changes)
-
-    if(!this._commonService.deepEquals(
+    if (!this._commonService.deepEquals(
       changes.actions.currentValue,
       changes.actions.previousValue
     )) {
 
       this.preparedActionTypes = [];
       this.preparedActions = [];
-      
+
       for (let key of Object.keys(changes.actions.currentValue)) {
-        console.log(key)
         this.preparedActionTypes.push(key);
         this.preparedActions.push(changes.actions.currentValue[key])
-        console.log(changes.actions.currentValue[key])
       }
     }
   }

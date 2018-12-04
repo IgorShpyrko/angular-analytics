@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../../services/auth/auth.service';
-import { TokenService } from '../../../../services/token/token.service';
-import { emailRegex } from '../../../../constants/regExps';
+import { AuthService } from 'src/app/common/services/auth/auth.service';
+import { TokenService } from 'src/app/common/services/token/token.service';
+import { API } from 'src/app/common/constants/';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   profileForm = this.fb.group({
     email: ['', Validators.compose([
       Validators.required,
-      Validators.pattern(emailRegex)
+      Validators.pattern(API.regExps.emailRegex)
     ])],
     password: ['', [
       Validators.compose([
