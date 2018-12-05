@@ -8,6 +8,10 @@
   justify-content: space-between;
 }
 
+nav {
+  padding: 0 20px
+}
+
 .main-menu-nav {
   display: flex;
 }
@@ -31,8 +35,4 @@
 
 .nav-button:active {
   background-color: #111;
-}
-
-.nav-logo {
-  text-decoration: none;
 }

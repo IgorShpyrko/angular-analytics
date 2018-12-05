@@ -132,12 +132,14 @@ export class AddSiteForAnalizeComponent implements OnInit {
   onAddNewSite() {
     this._sitesService.addSite(this.profileForm.controls.name.value)
       .then((data: {site: any}): void => {
+        console.log('data :', data);
         this._sitesService.attachEvents(data.site.uuid, this.changedEventsList);
         this.sites.push(data.site);
         this.clearForm();
       })
       .catch(err => {
-        this.showToast(err.error.error);
+        console.log(err)
+        // this.showToast(err.error.error);
       })
   };
 

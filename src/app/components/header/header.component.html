@@ -1,31 +1,29 @@
 <div class='header-wrapper'>
   <div class='main-menu'>
     <div class='main-menu-nav'>
-      <div class='main-logo'>
-        <a class='nav-logo' [routerLink]="['/']">
+      <nav>
+        <a class='nav-button' [routerLink]="['/']">
           <span>Logo</span>
         </a>
-      </div>
-      <nav>
-        <a class ='nav-button' [routerLink]="['/new']">
+        <a class='nav-button' [routerLink]="['/new']">
           <span>Add new site for analize</span>
         </a>
-        <a class ='nav-button' [routerLink]="['/analize']">
+        <a class='nav-button' [routerLink]="['/analize']">
           <span>Check statistic</span>
         </a>
       </nav>
     </div>
 
-    <div *ngIf = 'loggedIn'>
-      <a class ='nav-button' (click)="onLogOut()">
-        <span>Log out</span>
-      </a>
+    <div>
+      <nav>
+        <a *ngIf = 'loggedIn' class ='nav-button' (click)="onLogOut()">
+          <span>Log out</span>
+        </a>
+        <a *ngIf = '!loggedIn' class ='nav-button' [routerLink]="['/auth']">
+          <span>Log in</span>
+        </a>
+      </nav>
     </div>
 
-    <div *ngIf = '!loggedIn'>
-      <a class ='nav-button' [routerLink]="['/auth']">
-        <span>Log in</span>
-      </a>
-    </div>
   </div>
 </div>
