@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output, ElementRef, ViewChild } from '@angular/core';
 import { API } from 'src/app/common/constants/';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -14,11 +14,11 @@ interface Changes {
   styleUrls: ['./modal.component.css']
 })
 export class ModalComponent implements OnInit {
-
+  @ViewChild('modalWrapper') taskNoteRef:ElementRef;
   @Input() site: any;
   @Input() changedEventsList: any;
   @Input() actionsList: any;
-  constructor(private fb: FormBuilder) { }
+  constructor( private fb: FormBuilder ) { }
 
   profileForm = this.fb.group({
     address: [
@@ -46,7 +46,6 @@ export class ModalComponent implements OnInit {
 
   @Output() onApplyChanges = new EventEmitter<Changes>()
   applyChanges() {
-
     const changes: Changes = {
       address: this.profileForm.controls.address.value,
       uuid: this.site.uuid,
@@ -74,5 +73,4 @@ export class ModalComponent implements OnInit {
   get f() {
     return this.profileForm.controls;
   };
-
 }

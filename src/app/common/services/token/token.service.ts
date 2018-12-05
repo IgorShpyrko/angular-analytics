@@ -45,4 +45,17 @@ export class TokenService {
 
     return (decoded.exp < (Date.now() / 1000))
   }
+
+  createFakeToken() {
+    let token = window.localStorage.getItem('token');
+    
+    if(!token) {
+      window.localStorage.setItem('token', 'test123456')
+    }
+  }
+  
+  removeFakeToken() {
+    window.localStorage.removeItem('token')
+  }
+
 }

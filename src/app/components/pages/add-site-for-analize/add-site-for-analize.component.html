@@ -54,11 +54,11 @@
     
     <h3>Sites you are already tracking</h3>
     
-    <div class='' *ngIf='sites && sites.length === 0'>
+    <div class='' *ngIf='!sites || sites.length === 0'>
       <h4>Start with adding your first site for listening </h4>
     </div>
 
-    <ul>
+    <ul *ngIf="sites">
 
       <li *ngFor="let site of sites; let idx = index">
         <span (click)='openModal($event, idx)'>{{site.address}}</span>

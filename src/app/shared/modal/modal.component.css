@@ -11,6 +11,10 @@
   justify-content: center;
 }
 
+.testing-modal-wrapper {
+  display: none
+}
+
 .modal-container {
   min-width: 30vw;
   min-height: 50vh;

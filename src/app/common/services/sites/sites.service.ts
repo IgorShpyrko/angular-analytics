@@ -55,7 +55,9 @@ export class SitesService {
   }
 
   async getAllSites() {
-    if (!this.token) { return };
+    if (!this.token) {
+      throw('no token');
+    };
 
     const url = `${API.serverAPI.serverUrl}${API.serverAPI.sites}`;
 

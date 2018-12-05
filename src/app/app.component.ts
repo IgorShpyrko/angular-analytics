@@ -8,12 +8,6 @@ import { TestAnalytic } from 'test-analytics';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'front-analyst';
-  list = [
-    'click',
-    'keypress',
-    'input',
-    'change'
-  ];
 
   _testAnalytic: TestAnalytic;
 
@@ -22,10 +16,10 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this._testAnalytic.listenDocument(this.list);
+    this._testAnalytic.listenDocument();
   };
 
   ngOnDestroy() {
-    this._testAnalytic.killListenDocument(this.list);
+    this._testAnalytic.killListenDocument();
   };
 }
