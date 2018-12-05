@@ -103,7 +103,7 @@ export class SitesService {
       return this._http.post(url, bodyParams).toPromise();
     }
     catch (err) {
-      console.log(err);
+
     }
   }
 

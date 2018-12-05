@@ -138,8 +138,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
         this.clearForm();
       })
       .catch(err => {
-        console.log(err)
-        // this.showToast(err.error.error);
+        this.showToast(err.error.error);
       })
   };
 
