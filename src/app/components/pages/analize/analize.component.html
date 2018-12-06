@@ -22,11 +22,19 @@
       </div>
     </div>
   </div>
+  <div>
+    <div>Go to: </div>
+    <div *ngFor='let site of sites; let i = index' (click)='switchToSelectedSite(i)'>
+      {{site.address}}
+    </div>
+  </div>
+
+  <div appCenteredContent>
+    <iframe *ngIf="trustedUrl" [src]="trustedUrl" height="500" width="1000"></iframe>
+  </div>
 
   <app-table
     *ngIf="fetchedUserActions"
     [actions]="fetchedUserActions">
   </app-table>
-
-
-  </div>
+</div>

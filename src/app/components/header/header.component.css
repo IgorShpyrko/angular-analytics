@@ -1,15 +1,17 @@
 .header-wrapper {
   min-height: calc(10vh - 1px);
-  border-bottom: 1px solid black;
 }
 
 .main-menu {
   display: flex;
   justify-content: space-between;
+  background: #ee6e73;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 }
 
 nav {
-  padding: 0 20px
+  padding: 0 20px;
+  box-shadow: none;
 }
 
 .main-menu-nav {

@@ -1,4 +1,4 @@
-<div class="modal-wrapper" #modalWrapper (click)="clickOnWrapper($event)">
+<div appCenteredContent class="modal-wrapper" #modalWrapper (click)="clickOnWrapper($event)">
   <div class="modal-container">
    <h3>Change site params</h3>
     <form [formGroup]="profileForm" (ngSubmit)="applyChanges()">

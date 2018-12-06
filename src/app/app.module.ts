@@ -6,6 +6,7 @@ import { MzToastModule } from 'ngx-materialize';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from 'src/app/common/core.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -20,12 +21,6 @@ import { ForgotPasswordComponent } from './components/pages/auth/forgot-password
 import { ActionPartComponent } from './components/pages/analize/table/action-part/action-part.component';
 import { TableComponent } from './components/pages/analize/table/table/table.component';
 
-import { AuthFormDisplayDirective } from 'src/app/common/directives/authFormDisplay/auth-form-display.directive';
-import { LinkColorDirective } from 'src/app/common/directives/linkColorDirective/link-color.directive';
-import { FormItemDirective } from 'src/app/common/directives/formItem/form-item.directive';
-import { PassHelpDirective } from 'src/app/common/directives/pass-help/pass-help.directive';
-import { BtnDirectiveDirective } from 'src/app/common/directives/btn-directive/btn-directive.directive';
-
 import { AuthInterceptor } from 'src/app/common/interceptors/auth.interceptor';
 import { ErrorInterceptor } from 'src/app/common/interceptors/error.interceptor';
 
@@ -38,16 +33,11 @@ import { ErrorInterceptor } from 'src/app/common/interceptors/error.interceptor'
     AnalizeComponent,
     AddSiteForAnalizeComponent,
     WelcomeComponent,
-    LinkColorDirective,
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    AuthFormDisplayDirective,
-    FormItemDirective,
-    PassHelpDirective,
-    BtnDirectiveDirective,
     TableComponent,
-    ActionPartComponent
+    ActionPartComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +45,12 @@ import { ErrorInterceptor } from 'src/app/common/interceptors/error.interceptor'
     AppRoutingModule,
     ReactiveFormsModule,
     SharedModule,
-    MzToastModule
+    MzToastModule,
+    CoreModule,
+  ],
+  exports: [
+    CoreModule,
+    SharedModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

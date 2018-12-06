@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SitesService } from 'src/app/common/services/sites/sites.service';
 import { ActionsService } from 'src/app/common/services/actions/actions.service';
 import { MzToastService } from 'ngx-materialize';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-analize',
@@ -12,16 +13,24 @@ export class AnalizeComponent implements OnInit {
   constructor(
     private _sitesService: SitesService,
     private _actionsService: ActionsService,
-    private _toastService: MzToastService) { }
+    private sanitizer: DomSanitizer,
+    private _toastService: MzToastService) {}
 
-  sites: [];
+  sites: any[];
+  selectedSite: string;
   selectedEvent = '';
   selectedSiteUUID = '';
+  trustedUrl: any;
   fetchedEvents: any;
   fetchedUserActions: any;
 
   ngOnInit() {
     this.getAllSites()
+  }
+
+  switchToSelectedSite(idx) {
+    this.selectedSite = idx
+    this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.sites[idx].address);
   }
 
   getAllSites() {

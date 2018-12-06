@@ -24,7 +24,7 @@ const activeValue = {
 @Directive({
   selector: '[appBtnDirective]'
 })
-export class BtnDirectiveDirective {
+export class BtnDirective {
 
   constructor(private el: ElementRef) {
     for (let key in initialValue) {

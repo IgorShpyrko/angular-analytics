@@ -22,4 +22,5 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._testAnalytic.killListenDocument();
   };
+
 }
