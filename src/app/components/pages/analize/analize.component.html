@@ -25,7 +25,7 @@
   <div>
     <div>Go to: </div>
     <div *ngFor='let site of sites; let i = index' (click)='switchToSelectedSite(i)'>
-      <a appBtnColor href="{{site.address}}" target="blanc">{{site.address}}</a>
+      <span appBtnColor>{{site.address}}</span>
     </div>
   </div>
 

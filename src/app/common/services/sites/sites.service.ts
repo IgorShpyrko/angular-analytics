@@ -14,6 +14,25 @@ export class SitesService {
     'Content-Type':  'application/json'
   });
 
+  
+  async redirect(site) {
+    const url = `${API.serverAPI.serverUrl}${API.serverAPI.redirect}`;
+    
+    const bodyParams = {
+      mode: 'cors',
+      headers: this.headers,
+      body: {
+        site: site
+      }
+    };
+    
+    try {
+      return this._http.post(url, bodyParams).toPromise()
+    } catch (error) {
+      
+    }
+  }
+
   async deleteEvents(uuid: string, eventList) {
     const url = `${API.serverAPI.serverUrl}${API.serverAPI.events}${API.serverAPI.deleteAttach}`;
 
@@ -92,6 +111,12 @@ export class SitesService {
 
   async addSite(site: string) {
     const url = `${API.serverAPI.serverUrl}${API.serverAPI.sites}${API.serverAPI.add}`;
+
+    if ((site.toLocaleLowerCase().includes('http')) && (site.toLocaleLowerCase().indexOf('http') === 0 )) {
+      site = site
+    } else {
+      site = `http://${site}`
+    }
 
     const bodyParams = {
       method: 'POST',

@@ -23,7 +23,7 @@ export class ActionsService {
     if (!this.token) { return };
 
     const url = `${API.serverAPI.serverUrl}${API.serverAPI.events}/${event}/${siteUUID}`;
-
+    console.log(url)
     try {
       return this._http.get(url, this.bodyParams).toPromise();
     }

@@ -5,6 +5,7 @@ export const serverAPI = {
   addAction: '/action/add',
   register: '/customer/register',
   login: '/customer/login',
+  redirect: '/customer/redirect',
   sites: '/sites', // mock for now (doesn`t exist)
   clicks:'/clicks',
   deleteSite: '/delete',

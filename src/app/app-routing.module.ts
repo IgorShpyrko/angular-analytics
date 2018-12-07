@@ -10,16 +10,16 @@ import { ForgotPasswordComponent } from './components/pages/auth/forgot-password
 import { AuthGuard } from 'src/app/common/guards/auth.guard';
 
 const routes: Routes = [
-  {path: '', component: WelcomeComponent, pathMatch: 'full'},
-  {path: 'auth', component: AuthComponent, children: [
-    {path: '', redirectTo: 'login', pathMatch: 'full'},
-    {path: 'login', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
-    {path: 'forgot-password', component: ForgotPasswordComponent},
+  { path: '', component: WelcomeComponent, pathMatch: 'full'},
+  { path: 'auth', component: AuthComponent, children: [
+    { path: '', redirectTo: 'login', pathMatch: 'full'},
+    { path: 'login', component: LoginComponent},
+    { path: 'register', component: RegisterComponent},
+    { path: 'forgot-password', component: ForgotPasswordComponent},
   ]},
-  {path: 'analize', component: AnalizeComponent, canActivate: [AuthGuard]},
-  {path: 'new', component: AddSiteForAnalizeComponent, canActivate: [AuthGuard]},
-  { path: '**', redirectTo: '' }
+  { path: 'analize', component: AnalizeComponent, canActivate: [AuthGuard]},
+  { path: 'new', component: AddSiteForAnalizeComponent, canActivate: [AuthGuard]},
+  // { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

@@ -52,7 +52,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
   };
 
   onKeypress(e) {
-    console.log(e)
     if (e.keyCode === 27) {
       if (this.isOpenedModal) {
         this.closeModal()
@@ -65,6 +64,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
   getAllSites() {
     this._sitesService.getAllSites()
       .then((sites: {site: []}) => {
+        console.log(sites)
         this.sites = sites.site
       })
   };
@@ -154,7 +154,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
   onAddNewSite() {
     this._sitesService.addSite(this.profileForm.controls.name.value)
       .then((data: {site: any}): void => {
-        console.log('data :', data);
         this._sitesService.attachEvents(data.site.uuid, this.changedEventsList);
         this.sites.push(data.site);
         this.clearForm();

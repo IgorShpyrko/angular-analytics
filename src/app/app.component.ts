@@ -17,6 +17,11 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
+    console.log(window.history.state)
+    console.log(document.location)
+    console.log(document.location.href)
+
+    // window.history.replaceState(null, 'testing', document.location.origin)
     this._testAnalytic.listenDocument();
   };
 
