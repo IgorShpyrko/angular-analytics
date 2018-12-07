@@ -26,6 +26,7 @@ export class AddSiteForAnalizeComponent implements OnInit {
   changedEventsList: string[] = [];
   fetchedEventsList: string[] = [];
   actionsList: string[];
+  isOpenedModal: boolean = false;
 
   profileForm = this.fb.group({
     name: ['', Validators.compose([
@@ -38,12 +39,28 @@ export class AddSiteForAnalizeComponent implements OnInit {
   });
 
   ngOnInit() {
+    window.addEventListener('keydown', (e) => this.onKeypress(e))
     this.getAllSites();
     this._actionsService.getAllActionsList()
       .then ((data: string[]) => {
         this.actionsList = data
       });
   };
+
+  ngOnDestroy(): void {
+    window.removeEventListener('keydown', (e) => this.onKeypress(e))
+  };
+
+  onKeypress(e) {
+    console.log(e)
+    if (e.keyCode === 27) {
+      if (this.isOpenedModal) {
+        this.closeModal()
+      } else {
+        this.clearForm()
+      }
+    }
+  }
 
   getAllSites() {
     this._sitesService.getAllSites()
@@ -66,6 +83,9 @@ export class AddSiteForAnalizeComponent implements OnInit {
     };
 
     e.target.value = 'default'
+    console.log(this.changedEventsList)
+    console.log(!this.isOpenedModal)
+    console.log(this.changedEventsList.length)
   };
 
   deleteAction(params) {
@@ -101,8 +121,9 @@ export class AddSiteForAnalizeComponent implements OnInit {
   };
 
   closeModal() {
-    this.checkedSite = null
-    this.clearForm()
+    this.checkedSite = null;
+    this.clearForm();
+    this.isOpenedModal = false;
   };
 
   openModal(e, idx) {
@@ -114,7 +135,8 @@ export class AddSiteForAnalizeComponent implements OnInit {
         this.fetchedEventsList = this._commonService.recursiveDeepCopy(data.events);
         this.changedEventsList = this._commonService.recursiveDeepCopy(data.events);
       }
-    )
+    );
+    this.isOpenedModal = true;
   };
 
   onDeleteClick(site) {

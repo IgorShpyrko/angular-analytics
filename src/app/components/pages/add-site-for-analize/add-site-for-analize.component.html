@@ -30,14 +30,14 @@
       </div>
 
       <div appFormItem class="select-actions">
-        <span><b>Choose actions to listen for</b></span>
-        <select name="site-select" id="" (change)='onSelectNewEvent($event)' formControlName='choosedEvents'>
+        <span><b>Select actions to listen: </b></span>
+        <select name="site-select" (change)='onSelectNewEvent($event)' formControlName='choosedEvents'>
           <option disabled value='default'>select actions</option>
           <option *ngFor='let action of actionsList' value={{action}}>{{action}}</option>
         </select>
       </div>
       
-      <div class="event-list" *ngIf='changedEventsList.length !== 0'>
+      <div class="event-list" *ngIf='!isOpenedModal && changedEventsList.length !== 0'>
         <span><b>Choosed events: </b></span>
         <span *ngFor='let event of changedEventsList; let idx = index'>
           {{event}}

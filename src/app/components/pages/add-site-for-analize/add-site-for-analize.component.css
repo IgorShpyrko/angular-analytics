@@ -11,6 +11,10 @@
   padding-bottom: 20px;
 }
 
+.select-actions > select {
+  display: inline !important;
+}
+
 .form-error {
   margin-top: -18px;
   color: red

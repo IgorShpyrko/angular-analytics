@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SitesService } from 'src/app/common/services/sites/sites.service';
 import { ActionsService } from 'src/app/common/services/actions/actions.service';
 import { MzToastService } from 'ngx-materialize';
@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./analize.component.css']
 })
 export class AnalizeComponent implements OnInit {
+  @ViewChild('currentIframe') iframe:ElementRef
   constructor(
     private _sitesService: SitesService,
     private _actionsService: ActionsService,

@@ -10,6 +10,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'front-analyst';
 
   _testAnalytic: TestAnalytic;
+  loadCount: number;
 
   constructor() {
     this._testAnalytic = new TestAnalytic();

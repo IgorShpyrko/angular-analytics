@@ -51,7 +51,6 @@ export class ModalComponent implements OnInit {
       uuid: this.site.uuid,
       changedEventsList: this.changedEventsList || []
     };
-
     this.onApplyChanges.emit(changes);
   }
 
