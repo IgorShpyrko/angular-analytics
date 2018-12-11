@@ -1,11 +1,11 @@
 <div class="analize-wrapper">
-  <h3>Here you can watch statistic of your sites</h3>
+  <h3 class="analize-page-header">Here you can watch statistic of your sites</h3>
   <div class="select-wrapper">
-    <h4>Select site and events you want to analise</h4>
+    <h4 class="select-site-events-header">Select site and events you want to analise</h4>
 
     <div class="select-component">
-      <div class="select-site">
-        <h4>Site</h4>
+      <div class="select-site-header">
+        <h4 class="site-header">Site</h4>
         <select name="site-select" id="" (change)='onSelectSite($event)'>
           <option disabled value="select site">select site</option>
           <option *ngFor='let site of sites' value={{site.uuid}}>{{site.address}}</option>
@@ -13,7 +13,7 @@
       </div>
   
       <div class="select-events">
-        <h4>Event</h4>
+        <h4 class="select-event-header">Event</h4>
         <select name="site-select" id="" (change)='onSelectEvent($event)'>
           <option disabled value="select site">select event</option>
           <option *ngIf="!fetchedEvents" value="none">attach events to site</option>
