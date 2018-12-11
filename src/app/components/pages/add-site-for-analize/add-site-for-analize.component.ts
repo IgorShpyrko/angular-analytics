@@ -64,7 +64,6 @@ export class AddSiteForAnalizeComponent implements OnInit {
   getAllSites() {
     this._sitesService.getAllSites()
       .then((sites: {site: []}) => {
-        console.log(sites)
         this.sites = sites.site
       })
   };

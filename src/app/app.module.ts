@@ -18,7 +18,6 @@ import { WelcomeComponent } from './components/pages/welcome/welcome.component';
 import { LoginComponent } from './components/pages/auth/login/login.component';
 import { RegisterComponent } from './components/pages/auth/register/register.component';
 import { ForgotPasswordComponent } from './components/pages/auth/forgot-password/forgot-password.component';
-import { ActionPartComponent } from './components/pages/analize/table/action-part/action-part.component';
 import { TableComponent } from './components/pages/analize/table/table/table.component';
 
 import { AuthInterceptor } from 'src/app/common/interceptors/auth.interceptor';
@@ -37,7 +36,6 @@ import { ErrorInterceptor } from 'src/app/common/interceptors/error.interceptor'
     RegisterComponent,
     ForgotPasswordComponent,
     TableComponent,
-    ActionPartComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,13 +26,6 @@ export class AnalizeComponent implements OnInit {
     this.getAllSites()
   }
 
-  switchToSelectedSite(idx) {
-    this._sitesService.redirect(this.sites[idx].address)
-      .then(data => {
-        console.log(data)
-      })
-  }
-
   getAllSites() {
     this._sitesService.getAllSites()
     .then ((sites: {site: []}) => {

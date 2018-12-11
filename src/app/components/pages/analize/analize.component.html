@@ -16,15 +16,17 @@
         <h4>Event</h4>
         <select name="site-select" id="" (change)='onSelectEvent($event)'>
           <option disabled value="select site">select event</option>
-          <option value="all">all events</option>
+          <option *ngIf="!fetchedEvents" value="none">attach events to site</option>
+          <option *ngIf="fetchedEvents" value="all">all events</option>
           <option *ngFor='let event of fetchedEvents' value={{event}}>{{event}}</option>
         </select>
       </div>
     </div>
   </div>
+  
   <div>
     <div>Go to: </div>
-    <div *ngFor='let site of sites; let i = index' (click)='switchToSelectedSite(i)'>
+    <div *ngFor='let site of sites; let i = index'>
       <span appBtnColor>{{site.address}}</span>
     </div>
   </div>
