@@ -29,7 +29,7 @@ export class TokenService {
     if (decoded.exp === undefined) { return null };
 
     return decoded.exp
-  }
+  };
 
   isTokenExpired(): boolean {
     const token = this.get();
@@ -44,7 +44,7 @@ export class TokenService {
     if (decoded.exp === undefined) { return null };
 
     return (decoded.exp < (Date.now() / 1000))
-  }
+  };
 
   createFakeToken() {
     let token = window.localStorage.getItem('token');
@@ -52,10 +52,10 @@ export class TokenService {
     if(!token) {
       window.localStorage.setItem('token', 'test123456')
     }
-  }
+  };
   
   removeFakeToken() {
     window.localStorage.removeItem('token')
-  }
+  };
 
 }
