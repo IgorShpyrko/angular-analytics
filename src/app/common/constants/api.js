@@ -6,6 +6,7 @@ export const serverAPI = {
   register: '/customer/register',
   login: '/customer/login',
   redirect: '/customer/redirect',
+  refreshToken: '/customer/refreshToken',
   sites: '/sites', // mock for now (doesn`t exist)
   clicks:'/clicks',
   deleteSite: '/delete',

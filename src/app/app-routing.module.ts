@@ -18,8 +18,7 @@ const routes: Routes = [
     { path: 'forgot-password', component: ForgotPasswordComponent},
   ]},
   { path: 'analize', component: AnalizeComponent, canActivate: [AuthGuard]},
-  { path: 'new', component: AddSiteForAnalizeComponent, canActivate: [AuthGuard]},
-  // { path: '**', redirectTo: '' }
+  { path: 'new', component: AddSiteForAnalizeComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

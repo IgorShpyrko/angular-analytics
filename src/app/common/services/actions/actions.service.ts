@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API } from '../../constants/';
+import { TokenService } from 'src/app/common/services/token/token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActionsService {
-  constructor(private _http: HttpClient) { };
+  constructor(
+    private _http: HttpClient,
+    private _tokenService: TokenService) { };
 
-  private token: string = window.localStorage.getItem('token');
+  private token: string = this._tokenService.getAccessToken();
 
   private headers = new HttpHeaders({
     'Content-Type':  'application/json'

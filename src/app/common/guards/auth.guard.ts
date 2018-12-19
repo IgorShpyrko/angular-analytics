@@ -15,15 +15,17 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      if (!this._tokenService.get()) {
-        this.router.navigate(['/auth/login'], {});
-        this._authService.changeIsLoggedIn(false);
-        return false;
-      } else {
-        this._authService.changeIsLoggedIn(!this._tokenService.isTokenExpired());
-        return !this._tokenService.isTokenExpired()
-      }
-
-
-  }
+      if (this._tokenService.getAccessToken()) {
+        if (!this._tokenService.isExpiredAccessToken()) {
+          return true
+        } else if (this._tokenService.getRefreshToken()) {
+          if (!this._tokenService.isExpiredRefreshToken()) {
+            this._tokenService.refreshToken()
+              .then(() => {
+                return this._tokenService.isExpiredAccessToken()
+              })
+          }
+        }
+      } 
+    }
 }

@@ -6,9 +6,8 @@ import { API } from 'src/app/common/constants';
   providedIn: 'root'
 })
 export class SitesService {
-  constructor(private _http: HttpClient) {}
-
-  private token:string = window.localStorage.getItem('token');
+  constructor(
+    private _http: HttpClient) {}
 
   private headers = new HttpHeaders({
     'Content-Type':  'application/json'
@@ -55,9 +54,6 @@ export class SitesService {
   }
 
   async getAllSites() {
-    if (!this.token) {
-      throw('no token');
-    };
 
     const url = `${API.serverAPI.serverUrl}${API.serverAPI.sites}`;
 

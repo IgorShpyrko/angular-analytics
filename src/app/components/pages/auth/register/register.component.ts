@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MzToastService } from 'ngx-materialize';
+
 import { RegisterService } from 'src/app/common/services/register/register.service';
 import { TokenService } from 'src/app/common/services/token/token.service';
 import { AuthService } from 'src/app/common/services/auth/auth.service';
 import { emailRegex, passRegex } from 'src/app/common/constants/regExps';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,12 +19,12 @@ export class RegisterComponent implements OnInit {
     private _registerService: RegisterService,
     private _tokenService: TokenService,
     private _authService: AuthService,
-    private _router: Router) { }
+    private _router: Router,
+    private _toastService: MzToastService) { }
 
     profileForm: FormGroup;
     submitClicked: boolean = false;
     submitted: boolean = false;
-    response;
     passwordFormGroup: FormGroup;
 
   ngOnInit() {
@@ -68,7 +70,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onClickSubmitBtn() {
-    this.submitClicked = true
+    // this.submitClicked = true
   }
 
   get f() {
@@ -76,26 +78,32 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
+    // this.submitted = true;
+
     // TODO: Use EventEmitter with form value
 
     const newUser = Object.assign(
       {},
       this.profileForm.value,
       {password: this.passwordFormGroup.value.password}
-    )
+    );
 
     this._registerService.register(newUser)
-      .subscribe((response: {token: string}): void => {
-
-        this._tokenService.set(response.token);
-        this._authService.changeIsLoggedIn(true);
-        this._router.navigate(['/'], {});
-        this.response = response
-      },
-      error => {
-        console.log(error)
-      })
+      .then( 
+        (response: {accessToken: string, refreshToken: string}): void => {
+          this._tokenService.setAll(response);
+          this._authService.changeIsLoggedIn(true);
+          this._router.navigate(['/'], {});
+          console.log('response', response)
+        })
+      .catch(
+        error => {
+          console.log('error :', error);
+          if (error.status === 403) {
+            this._toastService.show(error.error, 4000, 'red')
+          }
+        }
+      )
   }
 
 }
