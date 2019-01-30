@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { WelcomeComponent } from './components/pages/welcome/welcome.component';
-import { AuthComponent } from './components/pages/auth/auth.component';
-import { AnalizeComponent } from './components/pages/analize/analize.component';
-import { AddSiteForAnalizeComponent } from './components/pages/add-site-for-analize/add-site-for-analize.component';
-import { LoginComponent } from './components/pages/auth/login/login.component';
-import { RegisterComponent } from './components/pages/auth/register/register.component';
-import { ForgotPasswordComponent } from './components/pages/auth/forgot-password/forgot-password.component';
-import { AuthGuard } from 'src/app/common/guards/auth.guard';
+import { WelcomeComponent } from './featured/pages/welcome/welcome.component';
+import { AuthComponent } from './featured/pages/auth/auth.component';
+import { AnalizeComponent } from './featured/pages/analize/analize.component';
+import { AddSiteForAnalizeComponent } from './featured/pages/add-site-for-analize/add-site-for-analize.component';
+import { LoginComponent } from './featured/pages/auth/login/login.component';
+import { RegisterComponent } from './featured/pages/auth/register/register.component';
+import { ForgotPasswordComponent } from './featured/pages/auth/forgot-password/forgot-password.component';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent, pathMatch: 'full'},

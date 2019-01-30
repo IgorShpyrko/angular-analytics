@@ -6,28 +6,28 @@ import { MzToastModule } from 'ngx-materialize';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
-import { CoreModule } from 'src/app/common/core.module';
+import { CoreModule } from 'src/app/core/core.module';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { AuthComponent } from './components/pages/auth/auth.component';
-import { AnalizeComponent } from './components/pages/analize/analize.component';
-import { AddSiteForAnalizeComponent } from './components/pages/add-site-for-analize/add-site-for-analize.component';
-import { WelcomeComponent } from './components/pages/welcome/welcome.component';
-import { LoginComponent } from './components/pages/auth/login/login.component';
-import { RegisterComponent } from './components/pages/auth/register/register.component';
-import { ForgotPasswordComponent } from './components/pages/auth/forgot-password/forgot-password.component';
-import { TableComponent } from './components/pages/analize/table/table/table.component';
+import { HeaderComponent } from './featured/header/header.component';
+import { FooterComponent } from './featured/footer/footer.component';
+import { AuthComponent } from './featured/pages/auth/auth.component';
+import { AnalizeComponent } from './featured/pages/analize/analize.component';
+import { AddSiteForAnalizeComponent } from './featured/pages/add-site-for-analize/add-site-for-analize.component';
+import { WelcomeComponent } from './featured/pages/welcome/welcome.component';
+import { LoginComponent } from './featured/pages/auth/login/login.component';
+import { RegisterComponent } from './featured/pages/auth/register/register.component';
+import { ForgotPasswordComponent } from './featured/pages/auth/forgot-password/forgot-password.component';
+import { TableComponent } from './featured/pages/analize/table/table.component';
 
-import { AuthInterceptor } from 'src/app/common/interceptors/auth.interceptor';
-import { ErrorInterceptor } from 'src/app/common/interceptors/error.interceptor';
+import { AuthInterceptor } from 'src/app/core/interceptors/auth.interceptor';
+import { ErrorInterceptor } from 'src/app/core/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent,  
     AuthComponent,
     AnalizeComponent,
     AddSiteForAnalizeComponent,

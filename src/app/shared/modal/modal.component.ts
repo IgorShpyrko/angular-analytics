@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Input, Output, ElementRef, ViewChild } from '@angular/core';
-import { API } from 'src/app/common/constants/';
+import API from 'src/app/core/constants/';
 import { FormBuilder, Validators } from '@angular/forms';
 
 interface Changes {

@@ -1,0 +1,172 @@
+<p>
+  register works!
+</p>
+
+<form [formGroup]="profileForm" (ngSubmit)="profileForm.valid && onSubmit()">
+
+  <!-- First Name Input -->
+  <div appFormItem class='form-item'>
+    <input id="firstName" type="text" formControlName="firstName" />
+  </div>
+
+  <!-- First Name errors -->
+  <div appFormItem class='form-error'>
+    <div></div>
+    <div class='form-error-placeholder' *ngIf="!f.firstName.touched">
+        Enter first name here
+    </div>
+    <div *ngIf="f.firstName.touched">
+      <div *ngIf="f.firstName.errors; else firstNameCorrectTmpl">
+        <div *ngIf="f.firstName.errors.required">
+          first name is required
+        </div>
+        <div *ngIf="f.firstName.errors.minlength" >
+          name must contain min 6 characters
+        </div>
+      </div>
+    </div>
+
+<!-- First Name templates -->
+
+    <ng-template #firstNameCorrectTmpl>
+      <div class='form-error-correct-placeholder'>
+        Correct first name
+      </div>
+    </ng-template>
+  </div>
+
+<!-- Last Name Input -->
+  <div appFormItem class='form-item'>
+    <input id="lastName" type="text" id="lastName" formControlName="lastName" />
+  </div>
+
+<!-- Last Name errors -->
+  <div appFormItem class='form-error'>
+    <div></div>
+    <div *ngIf="submitClicked; else lastNameTmpl">
+      <div *ngIf="f.lastName.errors; else lastNameCorrectTmpl">
+        <div *ngIf="f.lastName.errors.required">
+          last name is required
+        </div>
+        <div *ngIf="f.lastName.errors.minlength" >
+          name must contain min 6 characters
+        </div>
+      </div>
+    </div>
+
+<!-- Last Name templates -->
+    <ng-template #lastNameTmpl>
+      <div class='form-error-placeholder'>
+        Enter last name here
+      </div>
+    </ng-template>
+
+    <ng-template #lastNameCorrectTmpl>
+      <div class='form-error-correct-placeholder'>
+        Correct last name
+      </div>
+    </ng-template>
+  </div>
+
+<!-- Email Input -->
+  <div appFormItem class='form-item'>
+    <input id="email" type="email" formControlName="email" />
+  </div>
+
+<!-- Email errors -->
+  <div appFormItem class='form-error'>
+    <div></div>
+    <div *ngIf="submitClicked; else emailTmpl">
+      <div *ngIf="f.email.errors; else emailCorrectTmpl">
+        <div *ngIf="f.email.errors.required">
+          email is required
+        </div>
+        <div *ngIf="f.email.errors.pattern" >
+          not valid emails
+        </div>
+      </div>
+    </div>
+
+<!-- Email templates -->
+    <ng-template #emailTmpl>
+      <div class='form-error-placeholder'>
+        Enter email here
+      </div>
+    </ng-template>
+
+    <ng-template #emailCorrectTmpl>
+      <div class='form-error-correct-placeholder'>
+        Correct email
+      </div>
+    </ng-template>
+  </div>
+
+<!-- Password group -->
+  <div [formGroup]="passwordFormGroup">
+
+<!-- Password Input -->
+    <div appFormItem class="form-item">
+      <input class="form-control" type="password" name="password" formControlName="password">
+    </div>
+
+<!-- Password errors -->
+    <div appFormItem class='form-error'>
+      <div></div>
+
+      <div *ngIf="!submitClicked" class='form-error-placeholder'>
+        Enter password here
+      </div>
+
+      <div *ngIf="submitClicked">
+        <div class='form-error-correct-placeholder' *ngIf="!passwordFormGroup.controls.password.errors">
+          Password conditions are fulfilled
+        </div>
+        <div *ngIf="passwordFormGroup.controls.password.errors?.required">
+          Password is required
+        </div>
+
+        <div class='invalid-password-error' appPassHelp *ngIf="passwordFormGroup.controls.password.errors?.pattern">
+          not valid password
+          <div class='password-hint' >
+            Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+<!-- Password confirm input -->
+    <div appFormItem class="form-item">
+      <input class="form-control" type="password" name="repeatPassword" formControlName="repeatPassword">
+    </div>
+    
+<!-- Password confirm errors -->
+    <div appFormItem class='form-error'>
+      <div></div>
+
+      <div *ngIf="!submitClicked" class='form-error-placeholder'>
+        Enter confirm password here
+      </div>
+
+      <div *ngIf="submitClicked">
+        <div class='form-error-correct-placeholder' *ngIf="!passwordFormGroup.controls.repeatPassword.errors && !passwordFormGroup.errors?.doesMatchPassword">
+          Passwords match
+        </div>
+        <div class="bg-danger" *ngIf="passwordFormGroup.controls.repeatPassword.errors?.required">
+          Repeat password is required
+        </div>
+        <div class="bg-danger" *ngIf="passwordFormGroup.errors?.doesMatchPassword">
+          Password does not match
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- Register form controls -->
+  <div class='auth-action-btn-wrapper'>
+    <button appBtnDirective (click)='ngOnInit()'>reset</button>
+    <button appBtnDirective class="auth-action-btn" type="submit">Submit</button>
+  </div>
+</form>
+  
