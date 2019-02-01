@@ -23,9 +23,8 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   sites: any[] = [];
   checkedSite: any;
-  changedEventsList: string[] = [];
-  fetchedEventsList: string[] = [];
-  actionsList: string[];
+  allActions: string[];
+  siteActions: string[] = [];
   isOpenedModal: boolean = false;
 
   profileForm = this.fb.group({
@@ -39,11 +38,12 @@ export class AddSiteForAnalizeComponent implements OnInit {
   });
 
   ngOnInit() {
-    window.addEventListener('keydown', (e) => this.onKeypress(e))
+    window.addEventListener('keydown', (e) => this.onKeypress(e));
+
     this.getAllSites();
     this._actionsService.getAvailable()
-      .then ((data: string[]) => {
-        this.actionsList = data
+      .then((data: any) => {
+        this.allActions = data.actions
       });
   };
 
@@ -51,8 +51,8 @@ export class AddSiteForAnalizeComponent implements OnInit {
     window.removeEventListener('keydown', (e) => this.onKeypress(e))
   };
 
-  onKeypress(e) {
-    if (e.keyCode === 27) {
+  onKeypress(event: any) {
+    if (event.keyCode === 27) {
       if (this.isOpenedModal) {
         this.closeModal()
       } else {
@@ -63,45 +63,32 @@ export class AddSiteForAnalizeComponent implements OnInit {
 
   getAllSites() {
     this._sitesService.getAll()
-      .then((sites: []) => {
-        this.sites = sites
+      .then((data: any) => {
+        this.sites = data.sites
       })
   };
 
   clearForm() {
     this.profileForm.controls.name.setValue('');
-    this.changedEventsList = [];
-    this.fetchedEventsList = [];
+    this.siteActions = [];
   };
 
-  onSelectNewEvent(e: Event) {
+  onSelectNewAction(event: Event) {
     const value = (<HTMLSelectElement>event.target).value
 
-    if (!this.changedEventsList.find(event => event === value)) {
-      this.changedEventsList.push(value)
+    if (!this.siteActions.find(action => action === value)) {
+      this.siteActions.push(value)
     };
 
-    (<HTMLSelectElement>event.target).value = 'default'
-    console.log(this.changedEventsList)
-    console.log(!this.isOpenedModal)
-    console.log(this.changedEventsList.length)
+    (<HTMLSelectElement>event.target).value = 'default';
   };
 
-  deleteAction(params: any) {
-    this.changedEventsList.filter(event => event !== params.deleted)
-    this._actionsService.update(params.uuid, this.changedEventsList)
-  };
 
   applyChanges(changes: any) {
-    const newEvents = changes.changedEventsList.filter((event: string) => {
-      if (!this.fetchedEventsList.includes(event)) {
-        return event
-      }
-    });
-
+    
     Promise.all([
       (changes.address !== this.checkedSite.address) && this._sitesService.update(changes.uuid, changes.address),
-      (newEvents.length !== 0) && this._actionsService.update(changes.uuid, newEvents)
+      (this.siteActions.length !== 0) && this._actionsService.update(changes.uuid, this.siteActions)
     ])
       .then(() => {
         this.getAllSites();
@@ -122,37 +109,39 @@ export class AddSiteForAnalizeComponent implements OnInit {
     if (!e) { return };
 
     this._actionsService.get(this.sites[idx].uuid)
-      .then((data: {events: string[]}) => {
+      .then((data: {actions: string[]}) => {
+
         this.checkedSite = this.sites[idx];
-        this.fetchedEventsList = this._commonService.recursiveDeepCopy(data.events);
-        this.changedEventsList = this._commonService.recursiveDeepCopy(data.events);
+        this.siteActions = data.actions;
+        
+        // this.fetchedEventsList = this._commonService.recursiveDeepCopy(data.events);
+        // this.changedEventsList = this._commonService.recursiveDeepCopy(data.events);
       }
     );
     this.isOpenedModal = true;
   };
 
-  onDeleteClick(site: any) {
+  deleteSite(site: any) {
     if (!site) return;
     
     this._sitesService.delete(site.uuid)
       .then(() => {
         this.sites = this.sites.filter((item: any) => item.uuid !== site.uuid)
       })
+      .catch(err => {
+        console.log(err)
+      })
   };
-
-  showToast(message: string) {
-    this._toastService.show(message, 4000, 'red', () => {});
-  }
 
   onAddNewSite() {
     this._sitesService.add(this.profileForm.controls.name.value)
       .then((data: {site: any}): void => {
-        this._actionsService.update(data.site.uuid, this.changedEventsList);
+        this._actionsService.update(data.site.uuid, this.siteActions);
         this.sites.push(data.site);
         this.clearForm();
       })
       .catch(err => {
-        this.showToast(err.error.error);
+        this._toastService.show(err.error.error, 4000, 'red', () => {});
       })
   };
 

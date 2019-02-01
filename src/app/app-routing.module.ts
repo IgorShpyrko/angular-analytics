@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './featured/pages/welcome/welcome.component';
 import { AuthComponent } from './featured/pages/auth/auth.component';
-import { AnalizeComponent } from './featured/pages/analize/analize.component';
+import { CheckStatisticComponent } from './featured/pages/check-statistic/check-statistic.component';
 import { AddSiteForAnalizeComponent } from './featured/pages/add-site-for-analize/add-site-for-analize.component';
 import { LoginComponent } from './featured/pages/auth/login/login.component';
 import { RegisterComponent } from './featured/pages/auth/register/register.component';
@@ -17,7 +17,7 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent},
     { path: 'forgot-password', component: ForgotPasswordComponent},
   ]},
-  { path: 'analize', component: AnalizeComponent, canActivate: [AuthGuard]},
+  { path: 'analize', component: CheckStatisticComponent, canActivate: [AuthGuard]},
   { path: 'new', component: AddSiteForAnalizeComponent, canActivate: [AuthGuard]}
 ];
 

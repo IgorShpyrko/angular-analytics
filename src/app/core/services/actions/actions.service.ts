@@ -21,7 +21,7 @@ export class ActionsService {
   get(siteUUID: string) {
     if (!this._tokenService.getAccessToken()) return;
 
-    const url = `${API.serverUrl}${API.actions.get}/${siteUUID}`;
+    const url = `${API.serverUrl}${API.actions.get}${siteUUID}`;
 
     const options = {
       mode: 'cors',
@@ -33,11 +33,14 @@ export class ActionsService {
     return this._http.get(url, options).toPromise();
   };
 
-  update(siteUUID: string, newList: string[]) {
-    const url = `${API.serverUrl}${API.actions.update}/${siteUUID}`;
+  update(siteUuid: string, newActions: string[]) {
+    if (!newActions || newActions.length === 0) return;
+
+    const url = `${API.serverUrl}${API.actions.update}`;
 
     const body = {
-      newList: newList
+      siteUuid: siteUuid,
+      actions: newActions
     }
 
     const options = {

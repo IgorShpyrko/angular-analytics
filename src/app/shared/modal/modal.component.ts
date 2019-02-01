@@ -3,7 +3,7 @@ import API from 'src/app/core/constants/';
 import { FormBuilder, Validators } from '@angular/forms';
 
 interface Changes {
-  address: string;
+  name: string;
   uuid: string;
   changedEventsList: string[];
 }
@@ -21,7 +21,7 @@ export class ModalComponent implements OnInit {
   constructor( private fb: FormBuilder ) { }
 
   profileForm = this.fb.group({
-    address: [
+    name: [
       '',
       Validators.compose([
         Validators.required,
@@ -32,7 +32,7 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     this.profileForm.setValue({
-      address: this.site.address
+      name: this.site.name
     });
   }
 
@@ -47,7 +47,7 @@ export class ModalComponent implements OnInit {
   @Output() onApplyChanges = new EventEmitter<Changes>()
   applyChanges() {
     const changes: Changes = {
-      address: this.profileForm.controls.address.value,
+      name: this.profileForm.controls.name.value,
       uuid: this.site.uuid,
       changedEventsList: this.changedEventsList || []
     };

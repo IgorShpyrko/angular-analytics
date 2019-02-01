@@ -4,18 +4,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MzToastService } from 'ngx-materialize';
 import { MockTokenService } from 'src/app/core/mock/services/token.service';
 
-import { AnalizeComponent } from './analize.component';
+import { CheckStatisticComponent } from './check-statistic.component';
 
 const _tokenService = new MockTokenService();
 
 describe('AnalizeComponent', () => {
-  let component: AnalizeComponent;
-  let fixture: ComponentFixture<AnalizeComponent>;
+  let component: CheckStatisticComponent;
+  let fixture: ComponentFixture<CheckStatisticComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ],
-      declarations: [ AnalizeComponent ],
+      declarations: [ CheckStatisticComponent ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
         { provide: MzToastService, useClass: MzToastService }
@@ -26,7 +26,7 @@ describe('AnalizeComponent', () => {
 
   beforeEach(() => {
     _tokenService.createFakeToken();
-    fixture = TestBed.createComponent(AnalizeComponent);
+    fixture = TestBed.createComponent(CheckStatisticComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

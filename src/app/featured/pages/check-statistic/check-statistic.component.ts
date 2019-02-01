@@ -4,11 +4,11 @@ import { ActionsService } from 'src/app/core/services/actions/actions.service';
 import { MzToastService } from 'ngx-materialize';
 
 @Component({
-  selector: 'app-analize',
-  templateUrl: './analize.component.html',
-  styleUrls: ['./analize.component.css']
+  selector: 'app-check-statistic',
+  templateUrl: './check-statistic.component.html',
+  styleUrls: ['./check-statistic.component.css']
 })
-export class AnalizeComponent implements OnInit {
+export class CheckStatisticComponent implements OnInit {
   @ViewChild('currentIframe') iframe:ElementRef
   constructor(
     private _sitesService: SitesService,

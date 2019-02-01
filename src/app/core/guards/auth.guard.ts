@@ -3,13 +3,15 @@ import { CanActivate, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from
 import { Observable } from 'rxjs';
 import { TokenService } from '../services/token/token.service';
 import { MzToastService } from 'ngx-materialize';
+import { CustomerService } from '../services/customer/customer.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor (
     private router: Router,
     private _tokenService: TokenService,
-    private _toastService: MzToastService
+    private _toastService: MzToastService,
+    private _customerService: CustomerService
   ) { }
 
   canActivate(
@@ -22,11 +24,13 @@ export class AuthGuard implements CanActivate {
         } else {
           const message = 'token is expired'
           this._toastService.show(message, 4000, 'red', () => {});
+          this._customerService.logout();
           return false;
         }
       } else {
         const message = 'no token provided'
         this._toastService.show(message, 4000, 'red', () => {});
+        this._customerService.logout();
         return false;
       }
     }

@@ -12,13 +12,13 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './featured/header/header.component';
 import { FooterComponent } from './featured/footer/footer.component';
 import { AuthComponent } from './featured/pages/auth/auth.component';
-import { AnalizeComponent } from './featured/pages/analize/analize.component';
+import { CheckStatisticComponent } from './featured/pages/check-statistic/check-statistic.component';
 import { AddSiteForAnalizeComponent } from './featured/pages/add-site-for-analize/add-site-for-analize.component';
 import { WelcomeComponent } from './featured/pages/welcome/welcome.component';
 import { LoginComponent } from './featured/pages/auth/login/login.component';
 import { RegisterComponent } from './featured/pages/auth/register/register.component';
 import { ForgotPasswordComponent } from './featured/pages/auth/forgot-password/forgot-password.component';
-import { TableComponent } from './featured/pages/analize/table/table.component';
+import { TableComponent } from './featured/pages/check-statistic/table/table.component';
 
 import { AuthInterceptor } from 'src/app/core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from 'src/app/core/interceptors/error.interceptor';
@@ -29,7 +29,7 @@ import { ErrorInterceptor } from 'src/app/core/interceptors/error.interceptor';
     HeaderComponent,
     FooterComponent,  
     AuthComponent,
-    AnalizeComponent,
+    CheckStatisticComponent,
     AddSiteForAnalizeComponent,
     WelcomeComponent,
     LoginComponent,

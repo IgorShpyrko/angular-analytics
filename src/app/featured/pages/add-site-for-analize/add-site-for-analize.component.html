@@ -31,17 +31,17 @@
 
       <div appFormItem class="select-actions">
         <span><b>Select actions to listen: </b></span>
-        <select name="site-select" (change)='onSelectNewEvent($event)' formControlName='choosedEvents'>
+        <select name="site-select" (change)='onSelectNewAction($event)' formControlName='choosedEvents'>
           <option disabled value='default'>select actions</option>
-          <option *ngFor='let action of actionsList' value={{action}}>{{action}}</option>
+          <option *ngFor='let action of allActions' value={{action}}>{{action}}</option>
         </select>
       </div>
       
-      <div class="event-list" *ngIf='!isOpenedModal && changedEventsList.length !== 0'>
+      <div class="event-list" *ngIf='!isOpenedModal && siteActions.length !== 0'>
         <span><b>Choosed events: </b></span>
-        <span *ngFor='let event of changedEventsList; let idx = index'>
-          {{event}}
-          <span *ngIf='idx !== changedEventsList.length - 1'> ,</span>
+        <span *ngFor='let action of siteActions; let idx = index'>
+          {{action}}
+          <span *ngIf='idx !== siteActions.length - 1'> ,</span>
         </span>
       </div>
 
@@ -62,18 +62,16 @@
 
       <li *ngFor="let site of sites; let idx = index">
         <span (click)='openModal($event, idx)'>{{site.name}}</span>
-        <span class='close-icon' (click)='onDeleteClick(site)'>&#x2715;</span>
+        <span class='close-icon' (click)='deleteSite(site)'>&#x2715;</span>
       </li>
       
     </ul>
     <app-modal 
       *ngIf="checkedSite"
       [site]="checkedSite"
-      [changedEventsList]="changedEventsList"
       [actionsList]="actionsList"
       (onClose)="closeModal($event)"
-      (onApplyChanges)="applyChanges($event)"
-      (onDeleteAction)="deleteAction($event)">
+      (onApplyChanges)="applyChanges($event)">
     </app-modal>
   </div>
 </div>
