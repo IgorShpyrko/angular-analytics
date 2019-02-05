@@ -87,8 +87,9 @@ export class AddSiteForAnalizeComponent implements OnInit {
   applyChanges(changes: any) {
     
     Promise.all([
-      (changes.address !== this.checkedSite.address) && this._sitesService.update(changes.uuid, changes.address),
-      (this.siteActions.length !== 0) && this._actionsService.update(changes.uuid, this.siteActions)
+      (changes.name !== this.checkedSite.name) && this._sitesService.update(changes.uuid, changes.name),
+      (changes.deletedActions.length !== 0) && this._actionsService.delete(changes.uuid, changes.deletedActions),
+      (changes.newActionsList.length !== 0) && this._actionsService.update(changes.uuid, changes.newActionsList)
     ])
       .then(() => {
         this.getAllSites();

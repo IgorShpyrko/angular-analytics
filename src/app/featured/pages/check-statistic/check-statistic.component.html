@@ -18,8 +18,8 @@
         <h4 class="select-event-header">Event</h4>
         <select name="site-select" id="" (change)='onSelectEvent($event)'>
           <option disabled value="select site">select event</option>
-          <option *ngIf="!fetchedEvents" value="none">attach events to site</option>
-          <option *ngIf="fetchedEvents" value="all">all events</option>
+          <option disabled *ngIf="selectedSiteUUID && !fetchedEvents" value="none">no events attached</option>
+          <option *ngIf="selectedSiteUUID && fetchedEvents" value="all">all events</option>
           <option *ngFor='let event of fetchedEvents' value={{event}}>{{event}}</option>
         </select>
       </div>

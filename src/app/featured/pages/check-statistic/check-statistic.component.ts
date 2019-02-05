@@ -27,8 +27,8 @@ export class CheckStatisticComponent implements OnInit {
 
   getAllSites() {
     this._sitesService.getAll()
-    .then ((sites: []) => {
-      this.sites = sites
+    .then ((data: any) => {
+      this.sites = data.sites
     });
   };
 

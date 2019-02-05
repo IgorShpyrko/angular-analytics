@@ -10,8 +10,8 @@
           formControlName="name">
 
         <ul>
-          <li *ngFor="let event of changedEventsList">
-            <span>{{event}}</span>
+          <li *ngFor="let action of newActionsList">
+            <span>{{action}}</span>
             <span (click)="deleteEvent($event)">&#x2715;</span>
           </li>
         </ul>
@@ -21,7 +21,7 @@
         <span>Add new events</span>
         <select name="" id="" (change)="addNewEvent($event)">
           <option disabled >select event</option>
-          <option *ngFor="let action of actionsList" value={{action}}>{{action}}</option>
+          <option *ngFor="let action of allActions" value={{action}}>{{action}}</option>
         </select>
       </div>
 

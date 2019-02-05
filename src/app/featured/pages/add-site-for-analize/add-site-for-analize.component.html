@@ -69,7 +69,8 @@
     <app-modal 
       *ngIf="checkedSite"
       [site]="checkedSite"
-      [actionsList]="actionsList"
+      [allActions]="allActions"
+      [siteActions]="siteActions"
       (onClose)="closeModal($event)"
       (onApplyChanges)="applyChanges($event)">
     </app-modal>

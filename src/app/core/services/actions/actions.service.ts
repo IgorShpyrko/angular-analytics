@@ -52,4 +52,25 @@ export class ActionsService {
 
     return this._http.put(url, body, options).toPromise();
   }
+
+  delete(siteUuid: string, deletedActions: string[]) {
+    if (!deletedActions || deletedActions.length === 0) return;
+
+    const url = `${API.serverUrl}${API.actions.update}`;
+
+    const params = {
+      siteUuid: siteUuid,
+      actions: deletedActions
+    }
+
+    const options = {
+      mode: 'cors',
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      }),
+      params: params
+    };
+
+    return this._http.delete(url, options).toPromise();
+  }
 }

@@ -5,8 +5,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 interface Changes {
   name: string;
   uuid: string;
-  changedEventsList: string[];
-}
+  newActionsList: any[];
+  deletedActions: any[];
+};
 
 @Component({
   selector: 'app-modal',
@@ -16,8 +17,11 @@ interface Changes {
 export class ModalComponent implements OnInit {
   @ViewChild('modalWrapper') taskNoteRef:ElementRef;
   @Input() site: any;
-  @Input() changedEventsList: any;
-  @Input() actionsList: any;
+  @Input() allActions: any[];
+  @Input() siteActions: any[];
+  newActionsList: any[] = [];
+  deletedActions: any[] = [];
+
   constructor( private fb: FormBuilder ) { }
 
   profileForm = this.fb.group({
@@ -31,6 +35,7 @@ export class ModalComponent implements OnInit {
   })
 
   ngOnInit() {
+    this.newActionsList = this.siteActions;
     this.profileForm.setValue({
       name: this.site.name
     });
@@ -39,8 +44,8 @@ export class ModalComponent implements OnInit {
   addNewEvent(e) {
     const newValue = e.target.value;
 
-    if (!this.changedEventsList.includes(newValue)) {
-      this.changedEventsList.push(newValue)
+    if (!this.newActionsList.includes(newValue)) {
+      this.newActionsList.push(newValue)
     }
   }
 
@@ -49,7 +54,8 @@ export class ModalComponent implements OnInit {
     const changes: Changes = {
       name: this.profileForm.controls.name.value,
       uuid: this.site.uuid,
-      changedEventsList: this.changedEventsList || []
+      newActionsList: this.newActionsList || [],
+      deletedActions: this.deletedActions || []
     };
     this.onApplyChanges.emit(changes);
   }
@@ -66,7 +72,8 @@ export class ModalComponent implements OnInit {
   }
 
   deleteEvent(e) {
-    this.changedEventsList = this.changedEventsList.filter(event => event !== e.target.previousSibling.innerText)
+    this.newActionsList = this.newActionsList.filter(event => event !== e.target.previousSibling.innerText);
+    this.deletedActions.push(e.target.previousSibling.innerText);
   }
 
   get f() {
