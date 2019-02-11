@@ -133,7 +133,7 @@ export class TokenService {
     };
 
     return this._http.post(url, body, options).toPromise()
-      .then((data: {accessToken: string, refreshToken: string}) => {
+      .then((data: { accessToken: string, refreshToken: string }) => {
         this.setAll(data)
       })
       .catch(err => {

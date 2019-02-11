@@ -16,3 +16,15 @@
 select {
   display: inline;
 }
+
+.analize-page-check-page-btn {
+  background-color: rgb(100, 100, 100);
+  cursor: pointer;
+  margin: 3px;
+  padding: 3px;
+  text-align: center;
+}
+
+.analize-page-check-page-btn:hover {
+  background-color: rgb(70, 70, 70);
+}

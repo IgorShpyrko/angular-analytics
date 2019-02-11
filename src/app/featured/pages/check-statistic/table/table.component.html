@@ -1,13 +1,15 @@
-<table *ngFor="let item of preparedActionTypes; index as i"> 
-  <caption>{{item}}</caption>
+<table *ngFor="let siteEvent of siteEvents | keyvalue; index as i">
+  <caption>{{siteEvent.key}}</caption>
   <thead>
     <tr>
-      <th *ngFor="let action of preparedActions[i][0] | keyvalue">{{action.key}}</th>
+      <th *ngFor="let event of siteEvent.value[0] | keyvalue">{{event.key}}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let action of preparedActions[i]; index as j">
-      <td *ngFor="let item of action | keyvalue">{{item.value}}</td>
+    <tr *ngFor="let event of siteEvent.value; index as j">
+      <ng-container *ngIf="(max > j) && (j > min)" >
+        <td *ngFor="let item of event | keyvalue">{{item.value}}</td>
+      </ng-container>
     </tr>
   </tbody>
 </table>

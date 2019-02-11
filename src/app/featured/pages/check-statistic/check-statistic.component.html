@@ -3,24 +3,23 @@
   <!-- Added tracking attribute to header for 100% match when creating temperature map -->
   <h3 class="analize-page-header" isTracking="analise-header">Here you can watch statistic of your sites</h3>
   <div class="select-wrapper">
-    <h4 class="select-site-events-header">Select site and events you want to analise</h4>
+    <h4 class="select-site-actions-header">Select site and actions you want to analise</h4>
 
     <div class="select-component">
       <div class="select-site-header">
         <h4 class="site-header">Site</h4>
         <select name="site-select" id="" (change)='onSelectSite($event)'>
           <option disabled value="select site">select site</option>
-          <option *ngFor='let site of sites' value={{site.name}}>{{site.name}}</option>
+          <option *ngFor='let site of sites' value={{site.uuid}}>{{site.name}}</option>
         </select>
       </div>
   
-      <div class="select-events">
-        <h4 class="select-event-header">Event</h4>
-        <select name="site-select" id="" (change)='onSelectEvent($event)'>
-          <option disabled value="select site">select event</option>
-          <option disabled *ngIf="selectedSiteUUID && !fetchedEvents" value="none">no events attached</option>
-          <option *ngIf="selectedSiteUUID && fetchedEvents" value="all">all events</option>
-          <option *ngFor='let event of fetchedEvents' value={{event}}>{{event}}</option>
+      <div class="select-actions">
+        <h4 class="select-actions-header">Action</h4>
+        <select name="site-select" id="" (change)='onSelectAction($event)'>
+          <option disabled value="select site">select action</option>
+          <option *ngIf="selectedSiteUUID && siteActions" value="all">all actions</option>
+          <option *ngFor='let action of siteActions' value={{action}}>{{action}}</option>
         </select>
       </div>
     </div>
@@ -29,12 +28,22 @@
   <div>
     <div>Go to: </div>
     <div *ngFor='let site of sites; let i = index'>
-      <span appBtnColor>{{site.address}}</span>
+      <span appBtnColor>{{site.name}}</span>
     </div>
   </div>
 
+  <div *ngIf="siteEvents">
+    <span class='analize-page-check-page-btn'
+      *ngFor="let item of Arr(pagesCount).fill(item); index as i"
+      (click)="selectPage($event)">
+        {{i + 1}}
+    </span>
+  </div>
+
   <app-table
-    *ngIf="fetchedUserActions"
-    [actions]="fetchedUserActions">
+    *ngIf="siteEvents"
+    [siteEvents]="siteEvents"
+    [min]="min"
+    [max]="max">
   </app-table>
 </div>
