@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { TestAnalytic } from 'test-analytics';
 
 @Component({
@@ -6,7 +6,7 @@ import { TestAnalytic } from 'test-analytics';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnDestroy {
   title = 'front-analyst';
 
   _testAnalytic: TestAnalytic;
@@ -14,9 +14,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor() {
     this._testAnalytic = new TestAnalytic();
-  };
-
-  ngOnInit() {
     this._testAnalytic.listenDocument();
   };
 
